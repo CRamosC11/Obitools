@@ -43,12 +43,9 @@ Fossil or ancient DNA tends to fragment and undergo deamination processes, which
 If we observed an increase in the GC% , it could mean that there is ADN from another organisim which has a higher content of G and C (for example bacteria or even human DNA). Also some primers or indexs have high GC content which could be affecting the data. 
 
 ### **Import forward and reverse sequences using obi import**
-```
-obi import --quality-sanger /data/scc/edna/data/BFTV-2_Pyrenees/250207_A00902_A_L002_BFTV-2_R1.fastq.gz trnL/forward
 
-obi import --quality-sanger /data/scc/edna/data/BFTV-2_Pyrenees/250207_A00902_A_L002_BFTV-2_R2.fastq.gz trnL/reverse
-
-```
+```obi import --quality-sanger /data/scc/edna/data/BFTV-2_Pyrenees/250207_A00902_A_L002_BFTV-2_R1.fastq.gz trnL/forward
+obi import --quality-sanger /data/scc/edna/data/BFTV-2_Pyrenees/250207_A00902_A_L002_BFTV-2_R2.fastq.gz trnL/reverse```
 
 We could check the number of sequences we have:
 
@@ -56,7 +53,7 @@ We could check the number of sequences we have:
 `obi import --ngsfilter ngsfile.txt DMS_Tele02/ngsfile`
 (before importing to the directory, the file has to be imported manually)
 
-**Different commands to get general information about the directory and files**
+### **Different commands to get general information about the directory and files**
 What is in the DMS trnL?
 ```
 obi ls trnL
@@ -66,10 +63,10 @@ obi ls trnL/ngsfile/sample
 obi clean_dms trnL```  to clean the DMS
 
 
-### **Aligned sequences. Recover the full sequences from the partial forward and reverse reads
+**Aligned sequences. Recover the full sequences from the partial forward and reverse reads** 
 • Aligns the two reads of a pair-end library sequenced optimazing the overlap.
 • If the two reads overlap, it returns the consensus sequence together with its quality. It calculates the alignment score and indicates the quality of both reads´ assembly.
-• Otherwise, it concatenates sequence merging the forward read and the reversed-complemented reverse read**
+• Otherwise, it concatenates sequence merging the forward read and the reversed-complemented reverse read
 
 `obi alignpairedend- R DMS_NAME/reads2 DMS_NAME/reads1 DMS_NAME/aligned_reads`
 
