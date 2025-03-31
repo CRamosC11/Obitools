@@ -1,18 +1,22 @@
 # Obitools
-This folder shows the commands used in CORREDORAS project to analysed sedaDNA sequences from BASA DE LA MORA (Pyrenees, Spain). We show the obitools commands used as  well as the way we built a database to compare with.
+This document shows the pipeline used in CORREDORAS project to analyse sedaDNA sequences from BASA DE LA MORA (Pyrenees, Spain). We show obitools commands used as  well as the way we built a database to compare with.
  **Load obitools package**
 `module` load obitools/3.0.1-beta24
 
 **Set a directory**
-`cd` /data/scc/edna/YESSS/metabarcoding/Tele02
+cd /home/scc/cramos/trnL
 
 ### **Check the Quality of the sequences**
 `module` load fastqc
-Unzip in case of need. 
-`gunzip -k 241105_A00902_B_L002_AQHH-55_R2.fastq.gz`
+Unzip folders with sequences
+
+`gunzip -k 250207_A00902_A_L002_BFTV-2_R1.fastq.gz`
+`gunzip -k 250207_A00902_A_L002_BFTV-2_R2.fastq.gz`
 
 ### **Funcion fastqc para ver la calidad**
-`fastqc` 241105_A00902_B_L002_AQHH-55_R2.fastq
+`fastqc 250207_A00902_A_L002_BFTV-2_R1.fastq`
+`fastqc 250207_A00902_A_L002_BFTV-2_R2.fastq`
+
 Fastqc generates a zip file within the directory with images and a report of the analysis 
 
 ### **REPORT ANALISYS**
@@ -40,23 +44,28 @@ If we observed an increase in the GC% , it could mean that there is ADN from ano
 
 ### **Import forward and reverse sequences using obi import**
 ```
-obi import --quality-sanger /data/scc/edna/YESSS/AQHH-20240911b/241105_A00902_B_L002_AQHH-55_R2.fastq.gz DMS_Tele02/reads1
-obi import --quality-sanger /data/scc/edna/YESSS/AQHH-20240911b/241105_A00902_B_L002_AQHH-55_R1.fastq.gz DMS_Tele02/reads2
+obi import --quality-sanger /data/scc/edna/data/BFTV-2_Pyrenees/250207_A00902_A_L002_BFTV-2_R1.fastq.gz trnL/forward
+
+obi import --quality-sanger /data/scc/edna/data/BFTV-2_Pyrenees/250207_A00902_A_L002_BFTV-2_R2.fastq.gz trnL/reverse
 
 ```
+
+We could check the number of sequences we have:
+
 ### **Import ngsfilter file with information about tags and primers of the sequences**
 `obi import --ngsfilter ngsfile.txt DMS_Tele02/ngsfile`
 (before importing to the directory, the file has to be imported manually)
 
-**Different commands to get general information about the directory and archives**
+**Different commands to get general information about the directory and files**
+What is in the DMS trnL?
 ```
-obi ls DMS_Name
-obi ls -l DMS_Name
-obi ls DMS_NAME/reads1
-obi ls DMS_NAME/ngsfile/sample
-obi clean_dms DMS_NAME to clean the DMS
+obi ls trnL
+obi ls -l trnL
+obi ls trnL/forward
+obi ls trnL/ngsfile/sample
+obi clean_dms trnL```  to clean the DMS
 
-```
+
 ### **Aligned sequences. Recover the full sequences from the partial forward and reverse reads
 • Aligns the two reads of a pair-end library sequenced optimazing the overlap.
 • If the two reads overlap, it returns the consensus sequence together with its quality. It calculates the alignment score and indicates the quality of both reads´ assembly.
@@ -71,6 +80,15 @@ There are different parameters to filter the information you wanna get:
 -q= filters the low quality sequences.
 `e.g: obi alignpairedend **-M 2** -R DMS_NAME/reads2....`
 
+We can check the number of sequences 
+`obi count DMS_Tele02/reads1`
+`obi count DMS_Tele02/reads2`
+
+We can also check the sequences with obi head or obi tail:
+`obi head -n 10 DMS_Tele02/reads1 --fasta-output Head.fasta`
+In this case, we are first indicating to select the first 10 sequences from the document "reads1". Then we indicate to store the sequences information in the output Head.fasta
+
+/data/archiv/SCC/edna/data/BFTV-2_Pyrenees/
 ### **Check the Average alignment score**
 
 `obi stats -a score_norm DMS_NAME_aligned_reads`
