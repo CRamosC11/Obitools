@@ -190,105 +190,18 @@ Result: **805 sequences**
 Extract result (just 10 lines)
  `obi head trnL/high_abund_data FinalData.fasta -n 10 --fasta-output`
 
-### **Building an ObiTools database**
-The main objetive of this par of the code is  to build a database using sequences obtained from EMBL, which can then be used to create a reference database for your project.
-The full list of steps for building this reference database would then be:
-
-1. Download the whole set of EMBL sequences (available from: ftp://ftp.ebi.ac.uk/pub/databases/embl/release/)
-2. Download the NCBI taxonomy (available from: ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz)
-3. Format them into the ecoPCR format (see obiconvert for how you can produce ecoPCR compatible files)
-4. Use ecoPCR with your primers to simulate amplification and build a reference database based on putatively amplified barcodes together with their recorded taxonomic information
-
-See Wolf tutorial (https://pythonhosted.org/OBITools/wolves.html) for further description.
-
-### **1. Download the sequences (except human and environmental samples**
-Create a new directory where you will building your new taxonomy database
-`mkdir embl_refs`
-`cd embl_refs`
-
-Download the latest sequences from EMBL
-cd /data/scc/edna/YESSS/metabarcoding/Tele02
-`wget -nH --cut-dirs=6 -A 'STD_*.dat.gz' -R 'STD_HUM*.dat.gz','STD_ENV*.dat.gz' -m -np ftp://ftp.ebi.ac.uk/pub/databases/ena/sequence/snapshot_latest/std/`
-`cd ..`  is used to move back to the parent directory (the folder you were in before entering the EMBL directory)
-
--nH, --no-host-directories = don't create host directories
---cut-dirs= =ignore NUMBER remote directory components; here = 6
--A, --accept='STD_*.dat.gz' = comma-separated list of accepted sequences (by extensions)
--R, --reject='STD_HUM.dat.gz','STD_ENV.dat.gz' = comma-separated list of rejected sequences
-here, STD_HUM = human sequences; STD_ENV = environmental sequences
--m, --mirror = shortcut for -N -r -l inf --no-remove-listing
--np, --no-parent = don't ascend to the parent directory
-ftp link from EMBL included here from embl will always be the latest version
-
-Import reference sequences into a new DMS trnL/embl_refs. 
-`obi import --embl  /data/scc/edna/YESSS/metabarcoding/Tele02/EMBL  trnL/embl_refs` 
+ `obi export trnL/high_abund_data --output FORMAT=fasta > FINAL.fasta`
 
 
- ### **2. Importing taxonomy data into**
-Create a new directory into trnL for taxonomy files
 
-`mkdir taxonomy` 
-`cd taxonomy`
-
-Download the NCBI taxonomy to TAXO directory. TAXO directory is located within data/scc/edna/YESSS/metabarcoding/Tele02
-
-`cd /data/scc/edna/YESSS/metabarcoding/Tele02/TAXO`
-`wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz`
-
-`obi import --taxdump /data/scc/edna/YESSS/metabarcoding/Tele02/TAXO/taxdump.tar.gz trnL/taxonomy/my_tax`
-* data/scc/edna/YESSS/metabarcoding/Tele02/TAXO/taxdump.tar.gz this is the route where all the taxonomy files are. The last command indicates to import this data into trnL /taxonomy file.
-
-
-### **3. Create the reference database**
-
-Select only sequences that have taxids
-
-`cd /home/scc/cramos/trnL`
-`obi grep -A TAXID  trnL/embl_refs trnL/embl_ref_taxid`
-
-Run an in silico PCR with primers
-`obi ecopcr -e 3 -l 30 -L 550 -F gggtatctaatcccagtttg -R aaactcgtgccagccacc --taxonomy trnL/taxonomy/my_tax  -d trnL/embl_ref_taxid trnL/trnL_ecopcr`
-
-Note that the primers must be in the same order both in  ngsfile_trnL.txt 
-     
--e = Maximum number of errors (mismatches) allowed per primer (default: 0).
--l = Minimum length of the in silico amplified DNA fragment, excluding primers.
--L = Maximum length of the in silico amplified DNA fragment, excluding primers.
--F = Forward primer, length must be less than or equal to 32
--R = Reverse primer, length must be less than or equal to 32
---taxonomy = location of EMBL database you made in prev steps
-
-### **4. Clean the database**
-
-Filter sequences so that they have a good taxonomic description at the species, genus, and family levels
-`obi grep --require-rank=family --require-rank=genus --require-rank=species  --taxonomy trnL/taxonomy/my_tax trnL/trnL_ecopcr trnL/trnL_ecopcr_clean`
-
-Dereplicate identical sequences (note: not a necessary step, avoid for big databases as long as #79 is not fixed)
-`obi uniq --taxonomy trnL/taxonomy/my_tax trnL/trnL_ecopcr_clean trnL/trnL_ecopcr_uniq`
-
-If you ran the previous step, ensure that the dereplicated sequences have a taxid at the family level
-`obi grep --require-rank=family --taxonomy trnL/taxonomy/my_taxtrnL/trnL_ecopcr_uniq trnL/trnL_ecopcr_uniq_clean`
-
-Build the reference database specifically used by the OBITools3 to make ecotag efficient by pre-computing the similarities between the reference sequences
-`obi build_ref_db -t 0.97 --taxonomy trnL/taxonomy/my_tax trnL/trnL_ecopcr_uniq_clean trnL/trnL_ecopcr_db`**
-
-
- 
-
-### **Assign taxon with database at 97% identify threshold**
-Once the reference database is built, taxonomic assignment can be carried out using the `ecotag` command.
-`obi ecotag -m 0.97 --taxonomy /home/scc/cramos/trnL/taxonomy/my_tax -R /home/scc/cramos/trnL/trnL_taxo_desc_db trnL/clean_sequences_filtered_r01 trnL/db_97_assigned_sequences`
-
-
-**** Problemas con Obiconvert**. No reconoce los archivos descargados en EMBL. Obitools 3 no reconoce obiconvert, obiconvert es de obitools 2 y 1. 
+***Problemas con Obiconvert**. No reconoce los archivos descargados en EMBL. Obitools 3 no reconoce obiconvert, obiconvert es de obitools 2 y 1. 
 para ver que versiones hay disponibles en mobaXterm `module avail 2>&1 | grep obitools`
-Para cargar una version diferente primero hay7 que eliminar la version 
+Para cargar una version diferente primero hay que eliminar la version 
 `module unload obitools/3.0.1-beta24` y
 `module load obitools /1.2.13` 
-y cargar obiconvert. Antes de eso hay que hacer `gunzip embl_refs/*dat.gz`
-
-obitools/4.0.3
-
+o
+`obitools/4.0.3`
+Para ver las versiones disponibles de obitools
 `module avail 2>&1 | grep obitools`
 
 
