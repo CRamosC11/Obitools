@@ -339,3 +339,12 @@ Index the database
 **Assigning the sequences a taxon**
 FinalData correspond with the filtered and cleaned sequences 
 `obitag -t ncbitaxdump -R COMPLETE_index_sequences.fasta FinalData.fasta > assigned_sequences.fasta`
+It is now possible to extract the useful information for our ecological analysis from our sequence file. The results of this extraction consists of two CSV files, one describing the occurrence of each sequence variant in the different samples, and one for the metadata describing each sequence variant, which can at this stage of the analysis be considered as a Molecular Taxonomic Unit, i.e. MOTU.
+
+**The MOTU occurrence table**
+In the results file wolf_final.fasta, two attributes inform us about the distribution of MOTU abundances across samples (which here correspond to individual PCR): the merge_sample attribute and the obiclean_weight attribute.
+
+The merge_sample attribute was set by obiuniq during the initial reads dereplication procedure. It contains the observed number of reads for each sequence variant in the different samples. The obiclean_weight attribute is the number of reads assigned to each sequence variant after the obiclean denoising (or clustering) step. The number of reads shown in this attribute takes into account not only the number of reads observed for this variant, but also the number of reads observed for the erroneous sequences clustered to this estimated genuine sequence. According to obiclean , obiclean_weight is a better estimate of the true sequence occurrence than the merge_sample attribute.
+
+The obimatrix command creates the CSV file representing any map attribute of a OBITools4 sequence file. By default, it dumps the merge_sample attribute, but you can specify any other map attribute. Here we decided to use the obiclean_weight attribute, as we prefer to report the abundances of the MOTUs.
+`obimatrix --map obiclean_weight results/COMPLETE_index_sequences.fasta > final_assigned_sequences.csv`
