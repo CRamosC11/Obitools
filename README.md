@@ -277,11 +277,12 @@ Build the reference database specifically used by the OBITools3 to make ecotag e
 
 ### **Assign taxon with database at 97% identify threshold**
 Once the reference database is built, taxonomic assignment can be carried out using the `ecotag` command.
-
 `obi ecotag -m 0.97 --taxonomy /home/scc/cramos/trnL/taxonomy/my_tax -R /home/scc/cramos/trnL/trnL_taxo_desc_db trnL/clean_sequences_filtered_r01 trnL/db_97_assigned_sequences`
 
 
-**** Problemas con Obiconvert. No reconoce los archivos descargados en EMBL por ser .dat.gz. Tienen que estar en formato dat. Ademas obitools 3 no reconoce obiconvert, obiconvert es de obitools 2 y 1. Por tanto, primero tengo que 
+**** Problemas con Obiconvert**. No reconoce los archivos descargados en EMBL. Obitools 3 no reconoce obiconvert, obiconvert es de obitools 2 y 1. 
+para ver que versiones hay disponibles en mobaXterm `module avail 2>&1 | grep obitools`
+Para cargar una version diferente primero hay7 que eliminar la version 
 `module unload obitools/3.0.1-beta24` y
 `module load obitools /1.2.13` 
 y cargar obiconvert. Antes de eso hay que hacer `gunzip embl_refs/*dat.gz`
@@ -291,7 +292,7 @@ obitools/4.0.3
 `module avail 2>&1 | grep obitools`
 
 
-### OBITOOLS 4
+### OBITOOLS 4 to built the reference database
 **Download the sequences**
 Before starting with the obipcr you need to download the target sequences from EMBL, genbank, PhyloAlps...The files could be storaged in a different directory. I storaged the data here cd /data/scc/edna/YESSS/metabarcoding/Tele02/EMBL
 `wget -nH --cut-dirs=6 -A 'STD_*.dat.gz' -R 'STD_HUM*.dat.gz','STD_ENV*.dat.gz' -m -np ftp://ftp.ebi.ac.uk/pub/databases/ena/sequence/snapshot_latest/std/`
