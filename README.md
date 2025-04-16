@@ -1,5 +1,7 @@
- Obitools pipeline
+  **Obitools pipeline**
+  
 This document shows the pipeline used to perform the bioinforatic analysis of trnl loop region of the sedaDNA sequences  from BASA DE LA MORA (Pyrenees, Spain). This research belong to the CORREDORAS project.  We share the code to replicate the analysis using obitools 3.0.1 to clean and filter raw sequences used as well as the way we built a database reference to compare with.
+
  **Load obitools package**
 `module load obitools/3.0.1-beta24` 
 
