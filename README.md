@@ -329,8 +329,7 @@ The obigrep program allows to filter sequences, to keep only those with a taxid 
 
 **Ensure that the dereplicated sequences have a taxid at the family level** 
 Some sequences lose taxonomic information at the dereplication stage if certain versions of the sequence did not have this information beforehand. So we apply a second filter of this type.
-
-obigrep -t ncbitaxdump --require-rank=family COMPLETE_uniq.fasta > COMPLETE_Family_uniq.fasta
+`obigrep -t ncbitaxdump --require-rank=family COMPLETE_uniq.fasta > COMPLETE_Family_uniq.fasta`
 
 **Ensure that sequences each have a unique identifier**
 Index the database
@@ -339,6 +338,7 @@ Index the database
 **Assigning the sequences a taxon**
 FinalData correspond with the filtered and cleaned sequences 
 `obitag -t ncbitaxdump -R COMPLETE_index_sequences.fasta FinalData.fasta > assigned_sequences.fasta`
+
 It is now possible to extract the useful information for our ecological analysis from our sequence file. The results of this extraction consists of two CSV files, one describing the occurrence of each sequence variant in the different samples, and one for the metadata describing each sequence variant, which can at this stage of the analysis be considered as a Molecular Taxonomic Unit, i.e. MOTU.
 
 **The MOTU occurrence table**
@@ -348,3 +348,8 @@ The merge_sample attribute was set by obiuniq during the initial reads dereplica
 
 The obimatrix command creates the CSV file representing any map attribute of a OBITools4 sequence file. By default, it dumps the merge_sample attribute, but you can specify any other map attribute. Here we decided to use the obiclean_weight attribute, as we prefer to report the abundances of the MOTUs.
 `obimatrix --map obiclean_weight results/COMPLETE_index_sequences.fasta > final_assigned_sequences.csv`
+
+To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. This will create a CSV file from the wolf_final.fasta file and automatically determine which columns to include based on their contents from the first sequence records of the input dataset. In the example below, the -i and -s options are used to include the sequence identifier and the sequence itself in the output CSV file. The result can be viewed with csvlook:
+
+`obicsv --auto -i -s results/wolf_final.fasta > trnL_final_motus.csv`
+
