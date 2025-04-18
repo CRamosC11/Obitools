@@ -191,7 +191,8 @@ Extract result (just 10 lines)
  `obi head trnL/high_abund_data FinalData.fasta -n 10 --fasta-output`
 
  `obi export trnL/high_abund_data --output FORMAT=fasta > FINAL.fasta`
-
+ `obi export trnL/high_abund_data -f fasta > FINAL.fasta`
+ 
 
 
 ***Problemas con Obiconvert**. No reconoce los archivos descargados en EMBL. Obitools 3 no reconoce obiconvert, obiconvert es de obitools 2 y 1. 
