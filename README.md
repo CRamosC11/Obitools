@@ -35,7 +35,7 @@ What we wanna see is tight pattern. No more than 2 distributions within the data
 ![Captura de pantalla 2025-03-31 154049](https://github.com/user-attachments/assets/415febb0-fc1b-4050-9b79-999d4e20911a)
 
 ### **Per base sequences contest**
-According to tutorials what we must see are paralells lines which means that all the sequences you are analising present the same base at the same position. In our case, we may have different organisms with a lot of variability among their bases which could explain that we have all this different nucleotids among the different positions of the sequences. Also this could be produced by contamination or problems in the quality of the sequences but as we saw before, the overall quality is high.
+According to tutorials what we must see are paralells lines which means that all the sequences you are analising present the same base at the same position. In our case, we may have different organisms with a lot of variability among their bases which could explain that we have all these different nucleotids contest among the different positions of the sequences. Also, this situation could be explained by contamination or problems in the quality of the sequences but as we saw before, the overall quality is high.
 ![Captura de pantalla 2025-03-31 154203](https://github.com/user-attachments/assets/a51dce35-f4b0-4d1d-b812-7f9af083a8ac)
 
 ### **Per sequence GC content**
