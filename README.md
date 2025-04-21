@@ -24,8 +24,8 @@ Fastqc generates a zip file within the directory with images and a report of the
 
 ### **REPORT ANALISYS**
 ### **Quality score per base of all sequences.** 
-This graph shows most of the sequences have a high quality score. The last nucleotids whose position in the sequences are between 140-150 bp have worse quality. This means that among all the sequencews analysed, majority of them have low quality nucleotids at the end of the sequences.
-The blue line is the mean of the quality score. Above 20 is considered good quality. Overall quality is pretty good.
+This graph shows that most sequences have a high quality score.
+However, the last nucleotides, located between positions 140 and 150 bp, tend to have lower quality. This indicates that, across all sequences analyzed, the majority exhibit a decrease in nucleotide quality towards the end. The blue line represents the mean quality score, with values above 20 considered to indicate good quality. Overall, the sequence quality is quite good.
 ![Captura de pantalla 2025-03-31 153237](https://github.com/user-attachments/assets/c2fb0b83-d693-4aed-8cf7-8b6f5f1b6d89)
 
 ### **Quality per sequences**
