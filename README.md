@@ -118,8 +118,8 @@ To remove  sequnces based on the quality score:
 (collecting all the commands)
 *`obi grep -p 'sequence[`score_norm´]>0.9' trnL/aligned_reads | obi grep -a mode:alignment > trnL/good_quality_aligned_sequences` 
 
-According to #Alsos et al., (2015), > sequences having a low alignment quality score (threshold set at 40) were filtered out buit they use illuminapairedend function. 
-> Only merged sequences with a high alignment quality score were retained (>40; this corresponds to a pair of reads that can align perfectly on at least 10 bp at each read end) #Pansú et al., 2015
+According to #Alsos et al., (2015), > sequences having a low alignment quality score (threshold set at 40) were filtered out but they use illuminapairedend function instead of alignpairedend.
+(#Pansú et al., 2015) > Only merged sequences with a high alignment quality score were retained (>40; this corresponds to a pair of reads that can align perfectly on at least 10 bp at each read end) 
 
  
 ### **Assign each sequence record to the corresponding PCR combination**
