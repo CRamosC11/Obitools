@@ -1,1 +1,4 @@
 
+git add README.md
+git commit -m "Agrego archivo de documentación"
+git push
