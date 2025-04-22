@@ -3,8 +3,11 @@ This document outlines the pipeline employed for the bioinformatic analysis of t
 
 ### Basic commands
 `module avail 2>&1 | grep obitools´
+
 `module unload obitools/3.0.1-beta24´
+
 `module load obitools/4.4.0´
+
 Set a directory `cd /home/scc/cramos´
 
 ### Check the quality of the sequences with FastQC
@@ -12,6 +15,7 @@ Set a directory `cd /home/scc/cramos´
 
 Unzip folders with forward and reverse sequences
 `gunzip -k 250207_A00902_A_L002_BFTV-2_R1.fastq.gz gunzip -k 250207_A00902_A_L002_BFTV-2_R2.fastq.gz´
+
 Fastqc generates a zip file within the directory with images and a report of the analysis. 
 Link of both reports in this repository: BSM24_FastQC_TrnL_R2_fastqc and BSM24_FastQC_TrnL_R1_fastqc
 ## Quality report
