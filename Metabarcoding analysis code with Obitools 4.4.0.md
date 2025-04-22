@@ -11,7 +11,8 @@ Set a directory `cd /home/scc/cramos´
 `module load fastqc´
 Unzip folders with forward and reverse sequences
 `gunzip -k 250207_A00902_A_L002_BFTV-2_R1.fastq.gz gunzip -k 250207_A00902_A_L002_BFTV-2_R2.fastq.gz´
-Fastqc generates a zip file within the directory with images and a report of the analysis
+Fastqc generates a zip file within the directory with images and a report of the analysis. 
+Link of both reports in this repository: BSM24_FastQC_TrnL_R2_fastqc and BSM24_FastQC_TrnL_R1_fastqc
 ## Quality report
 In this report we are analysing the quality of the forward sequences. Reverse sequences don´t show any anomalies or quality problems therefore we just show the graphs of the forward sequences file. 
 ### Quality score per base of all sequences
@@ -20,6 +21,7 @@ This graph shows that most sequences have a high quality score. However, the las
 ### Quality per sequences
 What we wanna see is tight pattern. No more than 2 distributions within the data. The pattern observed in the quality of our dataset is good.
 ![Captura de pantalla 2025-04-22 163412](https://github.com/user-attachments/assets/0515c7a3-8b4c-44f2-bace-a70591ef47ea)
+
 ### Per base sequences contest
 The pattern of the lines vary according the type of data you have. Working with different species, genus, families...mean that the pattern you are going to obtained is not homogeneous and parallels which means that all the sequences have the same base at the same position. In our case, we may have different organisms with a lot of variability among their bases which explains that we have all these different nucleotids contest among the different positions of the sequences. Also, in some cases, this situation could be explained by contamination or problems in the quality of the sequences but as we saw before, the overall quality is high. 
 ![Captura de pantalla 2025-04-22 163422](https://github.com/user-attachments/assets/6845ee5d-f1ec-4a3c-8f0c-801a42b5c054)
@@ -30,7 +32,21 @@ It presents the distribution of the content of GC over all the sequences. The bl
 
 ### Sequence Duplication Levels
 Percent of sequences remainin if deduplicated is 15.33 which means that 15% of the sequwnces are non unique.
+Overrepresented sequences: FastQC indicates that the possible source of the 2 sequences more overrepresented is TruSeq Adapter which could explain the high % of GC content that this file has. Reverse sequences present a overrepresented sequence (GGGGGGGGG....) that also could explain the high % of GC content of the file but I don´t know how these sequences come from or how they were originated.
 ![Captura de pantalla 2025-04-22 163439](https://github.com/user-attachments/assets/3b3181e9-f565-41c3-9483-09db22700202)
 
 
+## Filtering and cleaning our dataset
+### Importing forward and reverse sequences with `obiparing´
+`obipairing --min-identity=0.8 --min-overlap=10 -F forward.fastq.gz -R reverse.fastqgz  > results/consensus.fastq´
 
+-min-overlap: minimum overlap between both the reads to consider the alignment (default: 20).
+--min-identity: minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000).
+These options allow to discard sequences with low alignment quality. A low alignment quality corresponds to paired-end reads overlapping over less than 10 base pairs, or to paired-end reads exhibiting an alignment of less than 80% of identity.
+
+We can observed information about the first sequence extracted 
+`obihead -n 1 results/consensus.fastq´
+### Exclude unpaired reads
+`obigrep -p 'annotations.mode != "join"' results/consensus.fastq > results/assembled.fastq
+### Assign each sequence record to the corresponding sample and marker combination
+Each sequence record is assigned to its corresponding sample, primer and tag. We need to compare with a csv file created with and specific structure. This strucutre only works for obitools 4.4.0. 
