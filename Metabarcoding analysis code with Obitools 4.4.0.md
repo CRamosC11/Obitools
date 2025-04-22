@@ -9,6 +9,7 @@ Set a directory `cd /home/scc/cramos´
 
 ### Check the quality of the sequences with FastQC
 `module load fastqc´
+
 Unzip folders with forward and reverse sequences
 `gunzip -k 250207_A00902_A_L002_BFTV-2_R1.fastq.gz gunzip -k 250207_A00902_A_L002_BFTV-2_R2.fastq.gz´
 Fastqc generates a zip file within the directory with images and a report of the analysis. 
