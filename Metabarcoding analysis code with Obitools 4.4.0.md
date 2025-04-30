@@ -73,13 +73,13 @@ Having all sequences assigned to their respective samples does not mean that all
 We are doing different test. In this case we want to know how much sequences we can filter sign different -r parameter
 Parameter -r is the threshold ratio between counts (rare/abundant counts) of two sequence records so that the less abundant one is a variant of the more abundant (default: 1.00).
 `obiclean -s sample -r 0.1 --detect-chimera -H results/assembled_assigned_simple.fasta > results/cleaned_chimeras_0.1.fasta´
-161.161 sequences
+161.161 sequences.
 
 The obigrep command below keeps only sequences that occur at least twice in the data set.
 `obigrep -c 2  results/cleaned_chimeras_0.05.fasta > results/no_singleton.fasta´
-45.137 sequences
+45.137 sequences.
 `obigrep -c 2  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta´
-40.272 sequences
+40.272 sequences.
 
 We want to filter the sequences according to their length. The primer used to sequences allows us to obtain information about a  specific region of the trnL gen. We use g and h primer whcih focus on the trnL loop and the length of this region is inferior to 150 bp and this length also could vary among different organisms. We consider filtering sequences according differnet ranges: 
 * length between 10 and 150 base pairs: 44.608
@@ -87,9 +87,7 @@ We want to filter the sequences according to their length. The primer used to se
 * length between 60 and 150 base pairs: 7179
 * length between 80 and 150 base pairs: 3.757
 These analyses are performanced with no_singleton.fasta file. We developed aother analysis with no_singleton_0.1.fasta. With this file we filtered those sequences whose length is superior to 10 pb and inferior to 150 obtaning 39.942 sequences.
-
 `obigrep -l 10 -L 150 results/no_singleton.fasta > results/length_10/length_10_0.5.fasta´
-
 `obigrep -l 10 -L 150 results/no_singleton_0.1.fasta > results/length_10/length_10_0.1.fasta´
 
 
