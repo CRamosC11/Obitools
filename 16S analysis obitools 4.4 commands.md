@@ -2,7 +2,7 @@
 
 `cd /home/scc/cramos/16S`
 
-`obipairing --min-identity=0.8 --min-overlap=10 -F 16S_sequences_forward.fastq.gz -R 16S_sequences_forwardreverse.fastqgz  > results/consensus.fastq`
+`obipairing --min-identity=0.8 --min-overlap=10 -F 16S_sequences_forward.fastq.gz -R 16S_sequences_reverse.fastq.gz  > results/consensus.fastq`
 
 `obigrep -p 'annotations.mode != "join"' results/consensus.fastq > results/assembled.fastq`
 
