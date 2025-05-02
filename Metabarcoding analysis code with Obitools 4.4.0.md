@@ -3,12 +3,18 @@ This document outlines the pipeline employed for the bioinformatic analysis of t
 
 ### Basic commands
 `module avail 2>&1 | grep obitools`
+
 `module unload obitools/3.0.1-beta24`
+
 `module load obitools/4.4.0`
-Set a directory `cd /home/scc/cramos/trnL`
+
+Set a directory
+
+`cd /home/scc/cramos/trnL`
 
 ### Check the quality of the sequences with FastQC
 `module load fastqc`
+
 Unzip folders with forward and reverse sequences.
 
 `gunzip -k 250207_A00902_A_L002_BFTV-2_R1.fastq.gz gunzip -k 250207_A00902_A_L002_BFTV-2_R2.fastq.gz`
@@ -43,6 +49,7 @@ Overrepresented sequences: FastQC indicates that the possible source of the 2 se
 
 ## Filtering and cleaning our dataset
 ### Importing forward and reverse sequences with `obiparing`
+
 `obipairing --min-identity=0.8 --min-overlap=10 -F forward.fastq.gz -R reverse.fastqgz  > results/consensus.fastq`
 
 -min-overlap: minimum overlap between both the reads to consider the alignment (default: 20).
@@ -50,6 +57,7 @@ Overrepresented sequences: FastQC indicates that the possible source of the 2 se
 These options allow to discard sequences with low alignment quality. A low alignment quality corresponds to paired-end reads overlapping over less than 10 base pairs, or to paired-end reads exhibiting an alignment of less than 80% of identity.
 
 We can observed information about the first sequence extracted 
+
 `obihead -n 1 results/consensus.fastq`
 ### Exclude unpaired reads
 `obigrep -p 'annotations.mode != "join"' results/consensus.fastq > results/assembled.fastq`
