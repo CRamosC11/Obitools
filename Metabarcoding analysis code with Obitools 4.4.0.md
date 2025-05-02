@@ -10,6 +10,7 @@ Set a directory `cd /home/scc/cramos/trnL`
 ### Check the quality of the sequences with FastQC
 `module load fastqc`
 Unzip folders with forward and reverse sequences.
+
 `gunzip -k 250207_A00902_A_L002_BFTV-2_R1.fastq.gz gunzip -k 250207_A00902_A_L002_BFTV-2_R2.fastq.gz`
 
 `fastqc 250207_A00902_A_L002_BFTV-2_R1.fastq.gz`
