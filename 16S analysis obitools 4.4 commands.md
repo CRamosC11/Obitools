@@ -12,9 +12,11 @@
 
 `obicount results/consensus.fastq`
 
+sequences number: 57.976.189 
+
 `obigrep -p 'annotations.mode != "join"' results/consensus.fastq > results/assembled.fastq`
 
-Sequences number:
+Sequences number: 54.684.072
 
 `obimultiplex -s ngsfile_16S_Obitools_4.csv -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
 
