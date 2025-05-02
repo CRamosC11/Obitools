@@ -18,7 +18,7 @@ sequences number: 57.976.189
 
 Sequences number: 54.684.072
 
-`obimultiplex -s ngsfile_16S_Obitools_4.csv -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
+`obimultiplex -s ngsfile_16S.csv -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
 
 
 `obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
