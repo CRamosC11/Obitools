@@ -20,25 +20,34 @@ Sequences number: 54.684.072
 
 `obimultiplex -s ngsfile_16S.csv -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
 
+Sequences obtained:46.377.578
 
 `obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
 
-Sequences number:
-
+Sequences number:652.984
 
 `obiannotate -k count -k merged_sample results/assembled_assigned_uniq.fasta > results/assembled_assigned_simple.fasta`
 
-
 `obiclean -s sample -r 0.1 --detect-chimera -H results/assembled_assigned_simple.fasta > results/cleaned_chimeras_0.1.fasta`
+
+Sequences number: 362.060
 
 `obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta`
 
-
 `obigrep -c 2  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta`
 
-`obigrep -l 10 -L 150 results/no_singleton_0.1.fasta > results/length_10/length_10_0.1.fasta`
+sequences number: 46.638
 
-variants= 
+`obigrep -l 40 results/no_singleton_0.1.fasta > results/length_10/length_40_0.1.fasta`
+According to Walker et al, 2023, Sequences were then assigned to the samples they came from (ngsfilter; up to two errors allowed), while sequences that were unaligned, contained ambiguous bases, or were outside the expected barcode length (< 40 or > 140 bp) were removed.
+
+variants= 42.261
+reads=36.535.108
+
+If -l=40 and -L=140:
+variants= 30.624
+
+
 
 
 
