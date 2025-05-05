@@ -47,6 +47,17 @@ reads=36.535.108
 If -l=40 and -L=140:
 variants= 30.624
 
+##Sequences taxonomic assignment
+
+`obitag -t ncbitaxo.tgz -R database/database.fasta results/length_40/length_40_0.1.fasta > results/length_40/taxo_40.fasta`
+
+`obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_40/taxo_40.fasta > results/length_40/taxo_red_40.fasta`
+
+`obicsv --auto -i -s results/length_40/taxo_red_40.fasta > results/length_40/16S_MOTUS.csv`
+
+`obimatrix --map obiclean_weight results/length_40/16S_MOTUS.csv > results/length_40/16S_occurrency.csv`
+
+
 
 
 
