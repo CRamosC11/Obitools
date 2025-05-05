@@ -133,8 +133,22 @@ Exporting the results in a tabular format
 Those sequences that 
 Alsos et al., 2015 > occurring as at least 10 reads per PCR repeat were kept
 
+`obigrep -c 10 results/length_10/taxo_seq_red_10.fasta > results/length_10/MOTUS_10_COUNT.fasta`
+
+`obigrep -c 10 results/length_10/taxo_seq_10_0.1.fasta > results/length_10/MOTUS_0.1_COUNT.fasta`
+
+Phylo Alps database
+
+`obigrep -c 10 results_phyloAlps/length_10/taxo_red_phyAlps_10.fasta > results_phyloAlps/length_10/MOTUS_PhyloAlps_COUNT_10.fasta`
 
 ##The MOTU occurrence table 
+
+The MOTU occurrence table. 
+ 
+`obicsv --auto -i -s results/length_10/MOTUS_10_COUNT.fasta > results/length_10/MOTUS_10_COUNT.csv`
+
+`obicsv --auto -i -s results/length_10/MOTUS_0.1_COUNT.fasta > results/length_10/MOTUS_0.1_COUNT.csv`
+
 To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
 
 `obimatrix --map obiclean_weight results/length_10/MOTUS_10_COUNT.fasta > results/length_10/occurrency_0.05.csv`
