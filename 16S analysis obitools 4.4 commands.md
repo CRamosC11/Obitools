@@ -57,6 +57,11 @@ variants= 30.624
 
 `obimatrix --map obiclean_weight results/length_40/16S_MOTUS.csv > results/length_40/16S_occurrency.csv`
 
+## Building database. 
+wget -nH --cut-dirs=6 -A 'STD_*.dat.gz' -R 'STD_HUM*.dat.gz','STD_ENV*.dat.gz','STD_PLN*.dat.gz'  -m -np ftp://ftp.ebi.ac.uk/pub/databases/ena/sequence/snapshot_latest/std/
+
+we don´t select sequences from Humans, environment and plants  to make the database smaller.
+
 
 
 
