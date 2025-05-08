@@ -149,7 +149,6 @@ The `obimatrix` command creates the CSV file using the obiclean_weight attribute
 
 `obicsv --auto -i -s results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/MOTUS_trnL.csv`
 
-
 To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
 
 `obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.05.csv`
