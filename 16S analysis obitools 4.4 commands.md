@@ -39,6 +39,7 @@ Sequences number: 362.060
 sequences number: 46.638
 
 `obigrep -l 40 results/no_singleton_0.1.fasta > results/length_10/length_40_0.1.fasta`
+
 According to Walker et al, 2023, Sequences were then assigned to the samples they came from (ngsfilter; up to two errors allowed), while sequences that were unaligned, contained ambiguous bases, or were outside the expected barcode length (< 40 or > 140 bp) were removed.
 
 variants= 42.261
@@ -58,12 +59,27 @@ variants= 30.624
 `obimatrix --map obiclean_weight results/length_40/16S_MOTUS.csv > results/length_40/16S_occurrency.csv`
 
 ## Building database. 
-wget -nH --cut-dirs=6 -A 'STD_*.dat.gz' -R 'STD_HUM*.dat.gz','STD_ENV*.dat.gz','STD_PLN*.dat.gz'  -m -np ftp://ftp.ebi.ac.uk/pub/databases/ena/sequence/snapshot_latest/std/
+`cd data/scc/cramos/16S/database`
 
-we don´t select sequences from Humans, environment and plants  to make the database smaller.
+`wget -nH --cut-dirs=6 -A 'STD_*.dat.gz' -R 'STD_HUM*.dat.gz','STD_ENV*.dat.gz','STD_PLN*.dat.gz'  -m -np ftp://ftp.ebi.ac.uk/pub/databases/ena/sequence/snapshot_latest/std/`
 
+We don´t select sequences from Humans, environment and plants to make the database smaller.
 
+`obipcr -e 2 -l 30 -L 150 --forward CGAGAAGACCCTATGGAGCT --reverse CCGAGGTCRCCCCAACC --no-order database/ > pcr_16S.fasta`
 
+`obigrep -t database/taxdump.tar.gz -A taxid --require-rank species --require-rank genus --require-rank family pcr_16S.fasta > db_16S.fasta` 
+
+`obiuniq -c taxid db_16S.fasta > db_uniq.fasta`
+
+`obirefidx -t database/taxdump.tar.gz db_uniq.fasta > db_indexed.fasta`
+
+`obitag -t ncbitaxo.tgz -R db_indexed.fasta results/length_40/taxo_red_40.fasta > results/length_40/assembled_taxo.fasta`
+
+`obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_40/assembled_taxo.fasta > results/length_40/final_taxa_16S.fasta`
+
+`obimatrix --map obiclean_weight results/length_40/final_taxa_16S.fasta > results/length_40/16S_occurrency.csv`
+
+`obicsv --auto -i -s results/length_40/final_taxa_16S.fasta > results/length_40/16S_motus.csv`
 
 
 
