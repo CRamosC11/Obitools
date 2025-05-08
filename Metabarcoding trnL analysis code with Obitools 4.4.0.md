@@ -126,6 +126,9 @@ We calculate the percent of times the sequences variants occur. Majority of sequ
 
 ![Captura de pantalla 2025-05-08 120953](https://github.com/user-attachments/assets/44cd577a-fdfc-4f39-9a89-a398b4c88de6)
 
+Calculating the median of the occurence of the sequences, the median value is 3. In this case, there are many sequences occurring few times, therefore, i will not grep the variants by their counts. 
+
+
 ## Sequences taxonomic assignment 
 Once the dataset is curated, the next step in a classical diet metabarcoding analysis is to assign the barcodes a taxon name (species, genus, etc.), in order to retrieve the list of taxa detected in each sample.
 
