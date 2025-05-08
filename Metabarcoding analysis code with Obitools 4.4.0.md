@@ -119,7 +119,8 @@ It could be interesting to explore the sequences by their "COUNT" in order to fi
 
 The y-axis represents the ‘count’ attribute, which is the number of occurrences of a sequence in the dataset. The x-axis represents the number of sequences that occur that many times. A priori, we can see majority of the sequences occur between 2 and 74 times. We "zoom it".
 
-![image](https://github.com/user-attachments/assets/369cc452-d8e7-4b34-ab04-1ec5e8caf05e)
+![Rplot01](https://github.com/user-attachments/assets/02de6909-c87b-4abc-9167-cf845e5b496f)
+
 
 We calculate the percent of times the sequences occur. Majority of sequences (36%) occur just 2 times and the 75,6% of sequences occur between 2 and 10 times. 
 
