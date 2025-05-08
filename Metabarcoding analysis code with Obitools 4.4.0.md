@@ -107,11 +107,27 @@ We want to filter the sequences according to their length. The primer used to se
 * length between 40 and 150 base pairs: 41.162
 * length between 60 and 150 base pairs: 7179
 * length between 80 and 150 base pairs: 3.757
-These analyses are performanced with no_singleton.fasta file. We developed aother analysis with no_singleton_0.1.fasta. With this file we filtered those sequences whose length is superior to 10 pb and inferior to 150 obtaning 39.942 sequences.
+These analyses are performanced with no_singleton.fasta file. We developed aother analysis with no_singleton_0.1.fasta. With this file, we filtered those sequences whose length is superior to 10 pb and inferior to 150 obtaning 39.942 sequences.
 
 `obigrep -l 10 -L 150 results/no_singleton.fasta > results/length_10/length_10_0.5.fasta`
 
 `obigrep -l 10 -L 150 results/no_singleton_0.1.fasta > results/length_10/length_10_0.1.fasta`
+
+It could be interesting to explore the sequences by their "COUNT" in order to filter them (in case we consider it neccessary) by the number of times each sequence appears in the dataset. With the fasta file (length_10_0.5.fasta) we plot the distribution of the count attribute in the data set in Rstudio (code attach in this repository). 
+
+![Rplot](https://github.com/user-attachments/assets/28055f72-369a-4af0-9780-fdf6d72fb570)
+
+The y-axis represents the ‘count’ attribute, which is the number of occurrences of a sequence in the dataset. The x-axis represents the number of sequences that occur that many times. A priori, we can see majority of the sequences occur between 2 and 74 times. We "zoom it".
+
+![image](https://github.com/user-attachments/assets/369cc452-d8e7-4b34-ab04-1ec5e8caf05e)
+
+We calculate the percent of times the sequences occur. Majority of sequences (36%) occur just 2 times and the 75,6% of sequences occur between 2 and 10 times. 
+
+![Captura de pantalla 2025-05-08 120953](https://github.com/user-attachments/assets/44cd577a-fdfc-4f39-9a89-a398b4c88de6)
+
+
+
+In this sequence abundance distribution, we can see that with a 1% filter, we will only keep 9 sequence variants, i.e. those that occur at least 87 times in the entire dataset.
 
 ## Sequences taxonomic assignment 
 Once the dataset is curated, the next step in a classical diet metabarcoding analysis is to assign the barcodes a taxon name (species, genus, etc.), in order to retrieve the list of taxa detected in each sample.
