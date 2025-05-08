@@ -154,7 +154,7 @@ To create the CSV metadata file describing the MOTUs attributes, you can use obi
 
 `obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.05.csv`
 
-** `obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.1.csv` ** 
+`obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.1.csv`
 
 
 ### Filter by abundance
