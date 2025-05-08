@@ -122,23 +122,19 @@ The y-axis represents the ‘count’ attribute, which is the number of occurren
 ![Rplot01](https://github.com/user-attachments/assets/02de6909-c87b-4abc-9167-cf845e5b496f)
 
 
-We calculate the percent of times the sequences occur. Majority of sequences (36%) occur just 2 times and the 75,6% of sequences occur between 2 and 10 times. 
+We calculate the percent of times the sequences variants occur. Majority of sequences (36%) occur just 2 times and the 75,6% of sequence variants occur between 2 and 10 times. 
 
 ![Captura de pantalla 2025-05-08 120953](https://github.com/user-attachments/assets/44cd577a-fdfc-4f39-9a89-a398b4c88de6)
-
-
-
-In this sequence abundance distribution, we can see that with a 1% filter, we will only keep 9 sequence variants, i.e. those that occur at least 87 times in the entire dataset.
 
 ## Sequences taxonomic assignment 
 Once the dataset is curated, the next step in a classical diet metabarcoding analysis is to assign the barcodes a taxon name (species, genus, etc.), in order to retrieve the list of taxa detected in each sample.
 
 `obitag -t ncbitaxo.tgz -R database/database.fasta results/length_10/lenght_10.fasta > results/length_10/taxo_seq_10.fasta`
 
-`obitag -t ncbitaxo.tgz -R database/database.fasta results/length_10/length_10_0.1.fasta > results/length_10/taxo_seq_10_0.1.fasta` 
+`obitag -t ncbitaxo.tgz -R database/database.fasta results/length_10/length_10_0.1.fasta > results/length_10/taxo_seq_10_0.1.fasta` (using -r 0.1 during obiclean)
 
-using -r 0.1 during obiclean
-* before starting with obitag, we need to construct the database (in our case we have construct 2 db using EMBL and PhyloAlps data). In this script we are showing results with EMBL database. Construction of the database commands are shown  below.
+
+* before starting with obitag, we need to construct the database (in our case we have construct 2 db using EMBL and PhyloAlps data). In this script we are showing results with EMBL database. Construction of the database commands is shown in this repository. 
 
 Exporting the results in a tabular format
 
@@ -146,9 +142,26 @@ Exporting the results in a tabular format
 
 `obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_10/taxo_seq_10_0.1.fasta > results/length_10/taxo_seq_red_10_0.1.fasta`
 
+## MOTU occurrence table 
+The `obimatrix` command creates the CSV file using the obiclean_weight attribute to report the abundances of the MOTUs.
+
+`obicsv --auto -i -s results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/MOTUS_trnL.csv`
+
+
+To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
+
+`obimatrix --map obiclean_weight results/length_10/MOTUS_10_COUNT.fasta > results/length_10/occurrency_0.05.csv`
+
+`obimatrix --map obiclean_weight results/length_10/MOTUS_0.1_COUNT.fasta > results/length_10/occurrency_0.1.csv`
+
+
+
+
+
+
 ### Filter by abundance
-Those sequences that 
-Alsos et al., 2015 > occurring as at least 10 reads per PCR repeat were kept
+If we are interested on filtering the file by the number of times sequences appear in the database, we can use `obigrep`
+According to Alsos et al., 2015, they filtered those sequences that occur at least 10 reads per PCR.
 
 `obigrep -c 10 results/length_10/taxo_seq_red_10.fasta > results/length_10/MOTUS_10_COUNT.fasta`
 
@@ -158,17 +171,5 @@ Phylo Alps database
 
 `obigrep -c 10 results_phyloAlps/length_10/taxo_red_phyAlps_10.fasta > results_phyloAlps/length_10/MOTUS_PhyloAlps_COUNT_10.fasta`
 
-##The MOTU occurrence table 
 
-The MOTU occurrence table. 
  
-`obicsv --auto -i -s results/length_10/MOTUS_10_COUNT.fasta > results/length_10/MOTUS_10_COUNT.csv`
-
-`obicsv --auto -i -s results/length_10/MOTUS_0.1_COUNT.fasta > results/length_10/MOTUS_0.1_COUNT.csv`
-
-To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
-
-`obimatrix --map obiclean_weight results/length_10/MOTUS_10_COUNT.fasta > results/length_10/occurrency_0.05.csv`
-
-`obimatrix --map obiclean_weight results/length_10/MOTUS_0.1_COUNT.fasta > results/length_10/occurrency_0.1.csv`
-
