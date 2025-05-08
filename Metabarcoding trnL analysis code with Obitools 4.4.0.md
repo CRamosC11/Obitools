@@ -142,7 +142,9 @@ Exporting the results in a tabular format
 
 `obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_10/taxo_seq_10_0.1.fasta > results/length_10/taxo_seq_red_10_0.1.fasta`
 
-## MOTU occurrence table 
+## MOTUs occurrence table 
+MOTU: molecular operational taxonomic units
+
 The `obimatrix` command creates the CSV file using the obiclean_weight attribute to report the abundances of the MOTUs.
 
 `obicsv --auto -i -s results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/MOTUS_trnL.csv`
@@ -150,18 +152,14 @@ The `obimatrix` command creates the CSV file using the obiclean_weight attribute
 
 To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
 
-`obimatrix --map obiclean_weight results/length_10/MOTUS_10_COUNT.fasta > results/length_10/occurrency_0.05.csv`
+`obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.05.csv`
 
-`obimatrix --map obiclean_weight results/length_10/MOTUS_0.1_COUNT.fasta > results/length_10/occurrency_0.1.csv`
-
-
-
-
+** `obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.1.csv` ** 
 
 
 ### Filter by abundance
 If we are interested on filtering the file by the number of times sequences appear in the database, we can use `obigrep`
-According to Alsos et al., 2015, they filtered those sequences that occur at least 10 reads per PCR.
+> According to Alsos et al., 2015, they filtered those sequences that occur at least 10 reads per PCR.
 
 `obigrep -c 10 results/length_10/taxo_seq_red_10.fasta > results/length_10/MOTUS_10_COUNT.fasta`
 
