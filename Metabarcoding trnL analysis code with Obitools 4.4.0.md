@@ -160,7 +160,7 @@ To create the CSV metadata file describing the MOTUs attributes, you can use obi
 
 
 # Distribution of counts per AVS
-`obicsv -k count results/length_10/length_10_0.1.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}' > distribucion_count.csv`
+`obicsv -k count results/length_10/length_10_0.1.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}' > results/length_10/counts per sequences distribution.csv`
 
 
 ### Filter by abundance
