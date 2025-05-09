@@ -159,6 +159,10 @@ To create the CSV metadata file describing the MOTUs attributes, you can use obi
 `obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.1.csv`
 
 
+# Distribution of counts per AVS
+`obicsv -k count results/length_10/length_10_0.1.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}' > distribucion_count.csv`
+
+
 ### Filter by abundance
 If we are interested on filtering the file by the number of times sequences appear in the database, we can use `obigrep`
 > According to Alsos et al., 2015, they filtered those sequences that occur at least 10 reads per PCR.
