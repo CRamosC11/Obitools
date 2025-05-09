@@ -113,7 +113,12 @@ These analyses are performanced with no_singleton.fasta file. We developed aothe
 
 `obigrep -l 10 -L 150 results/no_singleton_0.1.fasta > results/length_10/length_10_0.1.fasta`
 
-It could be interesting to explore the sequences by their "COUNT" in order to filter them (in case we consider it neccessary) by the number of times each sequence appears in the dataset. With the fasta file (length_10_0.5.fasta) we plot the distribution of the count attribute in the data set in Rstudio (code attach in this repository). 
+# Distribution of counts per AVS
+It could be interesting to explore the AVS (amplicon variants sequences) in order to filter them (in case we consider it neccessary) by the number of times each sequence appears in the dataset. 
+
+`obicsv -k count results/length_10/length_10_0.1.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}' > results/length_10/counts per sequences distribution.csv`
+
+With the csv, we plot the distribution of the count attribute in the data set in Rstudio (code attach in this repository). 
 
 ![Rplot](https://github.com/user-attachments/assets/28055f72-369a-4af0-9780-fdf6d72fb570)
 
@@ -126,7 +131,7 @@ We calculate the percent of times the sequences variants occur. Majority of sequ
 
 ![Captura de pantalla 2025-05-08 120953](https://github.com/user-attachments/assets/44cd577a-fdfc-4f39-9a89-a398b4c88de6)
 
-Calculating the median of the occurence of the sequences, the median value is 3. In this case, there are many sequences occurring few times, therefore, i will not grep the variants by their counts. 
+Calculating the median of the occurence of the sequences, the value is 3. In this case, there are many sequences occurring few times, therefore, i will not grep the variants by their counts. 
 
 
 ## Sequences taxonomic assignment 
@@ -157,10 +162,6 @@ To create the CSV metadata file describing the MOTUs attributes, you can use obi
 `obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.05.csv`
 
 `obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.1.csv`
-
-
-# Distribution of counts per AVS
-`obicsv -k count results/length_10/length_10_0.1.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}' > results/length_10/counts per sequences distribution.csv`
 
 
 ### Filter by abundance
