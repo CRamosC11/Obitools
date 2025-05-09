@@ -88,6 +88,13 @@ Rstudio analysis
 
 ![Rplot](https://github.com/user-attachments/assets/900947ec-8343-4e07-805c-92620f202c98)
 
+Mayority of the sequences are repeated 2,3,4 times...More than 13 times is weird so we show a histogram "zoom it"
+
+![Rplot01](https://github.com/user-attachments/assets/dfb2673a-fa89-466c-b0ed-a5f3c0ae4f8d)
+
+Calculating the mean and meadian of the distribution 
+
+
 
 
 
