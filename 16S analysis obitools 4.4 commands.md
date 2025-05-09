@@ -81,5 +81,16 @@ We don´t select sequences from Humans, environment and plants to make the datab
 
 `obicsv --auto -i -s results/length_40/final_taxa_16S.fasta > results/length_40/16S_motus.csv`
 
+# Distribution of the counts per sequences
+`obicsv -k count results/length_40/taxo_red_40.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}'> results/length_40/distribution_count_per_sequences.csv`
+
+Rstudio analysis
+
+![Rplot](https://github.com/user-attachments/assets/900947ec-8343-4e07-805c-92620f202c98)
+
+
+
+
+
 
 
