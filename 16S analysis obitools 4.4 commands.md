@@ -25,6 +25,7 @@ Sequences obtained:46.377.578
 `obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
 
 PONER PARRAFO PARA ELIMINAR LOS NUCLEOTIDOS QUE NO SEAN A,C ,G ,T 
+-OBIGREP: 
 
 Sequences number:652.984
 
