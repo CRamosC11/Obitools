@@ -38,38 +38,57 @@ Sequences obtained: 46.919.806
 Sequences number:652.984
 
 -----`obiuniq -m sample results/assembled_assigned_2.fastq > results/assembled_assigned_uniq_2.fasta`
-Sequences number:
+Sequences number:547.302
 
 PONER PARRAFO PARA ELIMINAR LOS NUCLEOTIDOS QUE NO SEAN A,C,G ,T 
--OBIGREP: 
+Mantener solo las secuencias que contienen exclusivamente A, C, T, G (mayúsculas o minúsculas)
+---------obigrep -p 'sequence =~ "^[ACTGactg]+$"' results/assembled_assigned_uniq_2.fasta > results/clean_sequences.fasta
+Sequences number: 303.501
 
-
+-----------`obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/assembled_assigned_simple.fasta`
 
 `obiannotate -k count -k merged_sample results/assembled_assigned_uniq.fasta > results/assembled_assigned_simple.fasta`
-
 `obiclean -s sample -r 0.1 --detect-chimera -H results/assembled_assigned_simple.fasta > results/cleaned_chimeras_0.1.fasta`
 
 Sequences number: 362.060
 
+
+---------`obiclean -s sample -r 0.1 --detect-chimera -H results/clean_sequences.fasta > results/cleaned_chimeras_0.1.fasta`
+Sequences number:
+
 `obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta`
+
+---------`obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1_2.fasta`
 
 `obigrep -c 2  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta`
 
 sequences number: 46.638
 
+---------`obigrep -c 2  results/cleaned_chimeras_0.1_2.fasta > results/no_singleton_0.1_2.fasta`
+sequences number: 30.206
+
 `obigrep -l 40 results/no_singleton_0.1.fasta > results/length_10/length_40_0.1.fasta`
+variants= 42.261
+reads=36.535.108
+If -l=40 and -L=140:
+variants= 30.624
+
+--------`obigrep -l 40 results/no_singleton_0.1_2.fasta > results/length_40/length_40_0.1_2.fasta`
+variants:26.677
+reads:36.903.488
+
 
 According to Walker et al, 2023, Sequences were then assigned to the samples they came from (ngsfilter; up to two errors allowed), while sequences that were unaligned, contained ambiguous bases, or were outside the expected barcode length (< 40 or > 140 bp) were removed.
 
-variants= 42.261
-reads=36.535.108
 
-If -l=40 and -L=140:
-variants= 30.624
+
+
 
 ##Sequences taxonomic assignment
 
 `obitag -t ncbitaxo.tgz -R database/database.fasta results/length_40/length_40_0.1.fasta > results/length_40/taxo_40.fasta`
+---------- `obitag -t ncbitaxo.tgz -R database/database.fasta results/length_40/length_40_0.1_2.fasta > results/length_40/taxo_40_2.fasta`
+AQIUUIIIII 26/06/2025
 
 `obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_40/taxo_40.fasta > results/length_40/taxo_red_40.fasta`
 
