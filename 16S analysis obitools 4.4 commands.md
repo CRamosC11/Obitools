@@ -31,12 +31,13 @@ Sequence number: 54.161.789
 Sequences obtained:46.377.578
 
 ------`obimultiplex -s 16S:new.txt -u results/unidentified_2.fastq results/assembled_2.fastq > results/assembled_assigned_2.fastq`
-Sequences obtained:
+Sequences obtained: 46.919.806
+
 
 `obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
 Sequences number:652.984
 
------`obiuniq -m sample results/assembled_assigned_2.fastq > results/assembled_assigned_uniq-2.fasta`
+-----`obiuniq -m sample results/assembled_assigned_2.fastq > results/assembled_assigned_uniq_2.fasta`
 Sequences number:
 
 PONER PARRAFO PARA ELIMINAR LOS NUCLEOTIDOS QUE NO SEAN A,C,G ,T 
