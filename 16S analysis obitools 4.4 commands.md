@@ -14,20 +14,35 @@
 
 sequences number: 57.976.189 
 
+-----`obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq`
+-----`obicount results/consensus_2.fastq`
+sequence number : 57.976.189
+
 `obigrep -p 'annotations.mode != "join"' results/consensus.fastq > results/assembled.fastq`
 
 Sequences number: 54.684.072
 
-`obimultiplex -s ngsfile_16S.csv -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
+-----`obigrep -p 'annotations.mode != "join"' results/consensus_2.fastq > results/assembled_2.fastq`
+Sequence number: 54.161.789
+
+
+`obimultiplex -s 16S_new.txt -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
 
 Sequences obtained:46.377.578
 
-`obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
+------`obimultiplex -s 16S:new.txt -u results/unidentified_2.fastq results/assembled_2.fastq > results/assembled_assigned_2.fastq`
+Sequences obtained:
 
-PONER PARRAFO PARA ELIMINAR LOS NUCLEOTIDOS QUE NO SEAN A,C ,G ,T 
+`obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
+Sequences number:652.984
+
+-----`obiuniq -m sample results/assembled_assigned_2.fastq > results/assembled_assigned_uniq-2.fasta`
+Sequences number:
+
+PONER PARRAFO PARA ELIMINAR LOS NUCLEOTIDOS QUE NO SEAN A,C,G ,T 
 -OBIGREP: 
 
-Sequences number:652.984
+
 
 `obiannotate -k count -k merged_sample results/assembled_assigned_uniq.fasta > results/assembled_assigned_simple.fasta`
 
