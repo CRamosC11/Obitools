@@ -25,13 +25,13 @@
 
 Sequences number: **57.976.189**
 
-***Obigrep***
+### Obigrep
 
 `obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled.fastq`
 
-Sequences number: 54.161.789
+Sequences number: **54.161.789**
 
-***Obimultiplex***
+### Obimultiplex
 
 `obimultiplex -s 16S_new.txt -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
       
@@ -39,34 +39,40 @@ Sequences number: 54.161.789
 
 Sequences number: **46.377.578**
 
-***Obiuniq***
+### Obiuniq
 
 `obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
 
 Sequences number: **652.984**
 
------`obiuniq -m sample results/assembled_assigned_2.fastq > results/assembled_assigned_uniq_2.fasta`
-Sequences number:547.302
+### Obigrep
 
-PONER PARRAFO PARA ELIMINAR LOS NUCLEOTIDOS QUE NO SEAN A,C,G ,T 
-Mantener solo las secuencias que contienen exclusivamente A, C, T, G (mayúsculas o minúsculas)
----------obigrep -p 'sequence =~ "^[ACTGactg]+$"' results/assembled_assigned_uniq_2.fasta > results/clean_sequences.fasta
-Sequences number: 303.501
-
------------`obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/assembled_assigned_simple.fasta`
-
-`obiannotate -k count -k merged_sample results/assembled_assigned_uniq.fasta > results/assembled_assigned_simple.fasta`
-`obiclean -s sample -r 0.1 --detect-chimera -H results/assembled_assigned_simple.fasta > results/cleaned_chimeras_0.1.fasta`
-
-Sequences number: 362.060
+Before comparing with the reference database, it is commomn to find sequences with ambiguous bases represented with IUPAC codes as N, M, K, R, Y, S, W, B, D, H or V.
+The objetive of this part of the code is to delete all the bases but A, C, G, T. 
 
 
----------`obiclean -s sample -r 0.1 --detect-chimera -H results/clean_sequences.fasta > results/cleaned_chimeras_0.1.fasta`
-Sequences number:
+`obigrep -p 'sequence =~ "^[ACTGactg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta´
+
+Sequences number: **303.501**
+
+### Obiannotate
+
+`obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/clean_annotated.fasta`
+
+### Obiclean 
+
+`obiclean -s sample -r 0.1 --detect-chimera -H results/clean_annotated.fasta > results/cleaned_chimeras_0.1.fasta`
+
+        Obiclean can be run in filter mode, allowing a sequence to be removed from the resulting sequence set if it is considered artifactual in all samples where it appears. Artifactual                sequences are those classified as internal or chimeric. This filtering is done by setting the -H option.
+
+
+Sequences number: **362.060**
+
+### Obigrep 
 
 `obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta`
 
----------`obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1_2.fasta`
+AQUIIIIII PERO REVISAR OBICLEAN CHIMERAS
 
 `obigrep -c 2  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta`
 
