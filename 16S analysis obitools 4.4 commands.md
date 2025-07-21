@@ -6,42 +6,40 @@
 
 ## FASTQC analysis**
 
-`module load fastqc`
-
-`gunzip -k 16S_sequences_foward.fastq.gz gunzip -k 16S_sequences_reverse.fastq.gz`
-
-`fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz`
+        module load fastqc
+        gunzip -k 16S_sequences_foward.fastq.gz gunzip -k 16S_sequences_reverse.fastq.gz
+        fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz
 
 ## Obitools analysis
 
 ### Obipairing
 
-`obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq`
+        obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq
 
-        --min-overlap: minimum overlap between both the reads to consider the alignment (default: 20)
-        --min-identity: minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000)
+min-overlap: minimum overlap between both the reads to consider the alignment (default: 20)
+min-identity: minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000)
 
-`obicount results/consensus_2.fastq`
+        obicount results/consensus_2.fastq
 
 Sequences number: **57.976.189**
 
 ### Obigrep
 
-`obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled.fastq`
+        obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled.fastq
 
 Sequences number: **54.161.789**
 
 ### Obimultiplex
 
-`obimultiplex -s 16S_new.txt -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
+        obimultiplex -s 16S_new.txt -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq
       
-       --allowed-mismatches: Used to specify the number of errors allowed for matching primers. (default: -1)
+allowed-mismatches: Used to specify the number of errors allowed for matching primers. (default: -1)
 
 Sequences number: **46.377.578**
 
 ### Obiuniq
 
-`obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
+        obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta
 
 Sequences number: **652.984**
 
@@ -51,19 +49,19 @@ Before comparing with the reference database, it is commomn to find sequences wi
 The objetive of this part of the code is to delete all the bases but A, C, G, T. 
 
 
-`obigrep -p 'sequence =~ "^[ACTGactg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta´
+        obigrep -p 'sequence =~ "^[ACTGactg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta
 
 Sequences number: **303.501**
 
 ### Obiannotate
 
-`obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/clean_annotated.fasta`
+        obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/clean_annotated.fasta
 
 ### Obiclean 
 
-`obiclean -s sample -r 0.1 --detect-chimera -H results/clean_annotated.fasta > results/cleaned_chimeras_0.1.fasta`
+        obiclean -s sample -r 0.1 --detect-chimera -H results/clean_annotated.fasta > results/cleaned_chimeras_0.1.fasta
 
-        Obiclean can be run in filter mode, allowing a sequence to be removed from the resulting sequence set if it is considered artifactual in all samples where it appears. Artifactual                sequences are those classified as internal or chimeric. This filtering is done by setting the -H option.
+Obiclean can be run in filter mode, allowing a sequence to be removed from the resulting sequence set if it is considered artifactual in all samples where it appears. Artifactual                sequences are those classified as internal or chimeric. This filtering is done by setting the -H option.
 
 
 Sequences number: **362.060**
