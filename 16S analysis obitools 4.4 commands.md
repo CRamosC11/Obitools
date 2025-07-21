@@ -70,18 +70,16 @@ Sequences number: **362.060**
 
 ### Obigrep 
 
-`obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta`
+        obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta
 
 AQUIIIIII PERO REVISAR OBICLEAN CHIMERAS
 
-`obigrep -c 2  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta`
+        obigrep -c 2  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta
 
 sequences number: 46.638
 
----------`obigrep -c 2  results/cleaned_chimeras_0.1_2.fasta > results/no_singleton_0.1_2.fasta`
-sequences number: 30.206
 
-`obigrep -l 40 results/no_singleton_0.1.fasta > results/length_10/length_40_0.1.fasta`
+        obigrep -l 40 results/no_singleton_0.1.fasta > results/length_10/length_40_0.1.fasta
 variants= 42.261
 reads=36.535.108
 If -l=40 and -L=140:
