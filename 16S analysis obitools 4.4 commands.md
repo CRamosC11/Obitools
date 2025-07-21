@@ -12,7 +12,9 @@
 
 `fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz`
 
-***Obitools analysis***
+**Obitools analysis**
+
+***Obipairing***
 
 `obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq`
 
@@ -21,13 +23,15 @@
 
 `obicount results/consensus_2.fastq`
 
-Sequences number: 57.976.189
+Sequences number: **57.976.189**
 
-**Obigrep** 
+***Obigrep***
+
 `obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled.fastq`
 
 Sequences number: 54.161.789
 
+***Obimultiplex***
 
 `obimultiplex -s 16S_new.txt -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
       
@@ -35,6 +39,7 @@ Sequences number: 54.161.789
 
 Sequences number: **46.377.578**
 
+***Obiuniq***
 
 `obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
 
