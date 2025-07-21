@@ -1,13 +1,15 @@
 # Metabarcoding analysis of 16S region of BSM24 sequences using Obitools 4.4.0 
 
-`cd /home/scc/cramos/16S`
+        cd /home/scc/cramos/16S
 
-`module load obitools/4.4.0`
+        module load obitools/4.4.0        
 
 ## FASTQC analysis**
 
         module load fastqc
+        
         gunzip -k 16S_sequences_foward.fastq.gz gunzip -k 16S_sequences_reverse.fastq.gz
+        
         fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz
 
 ## Obitools analysis
