@@ -12,7 +12,7 @@
 
 `fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz`
 
-*Obitools analysis*
+***Obitools analysis***
 
 `obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq`
 
@@ -20,26 +20,25 @@
         --min-identity: minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000)
 
 `obicount results/consensus_2.fastq`
-sequence number : 57.976.189
 
-`obigrep -p 'annotations.mode != "join" results/consensus.fastq > results/assembled.fastq`
+Sequences number: 57.976.189
 
-Sequences number: 54.684.072
+**Obigrep** 
+`obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled.fastq`
 
------`obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled_2.fastq`
-Sequence number: 54.161.789
+Sequences number: 54.161.789
 
 
 `obimultiplex -s 16S_new.txt -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
+      
+       --allowed-mismatches: Used to specify the number of errors allowed for matching primers. (default: -1)
 
-Sequences obtained:46.377.578
-
-------`obimultiplex -s 16S:new.txt -u results/unidentified_2.fastq results/assembled_2.fastq > results/assembled_assigned_2.fastq`
-Sequences obtained: 46.919.806
+Sequences number: **46.377.578**
 
 
 `obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
-Sequences number:652.984
+
+Sequences number: **652.984**
 
 -----`obiuniq -m sample results/assembled_assigned_2.fastq > results/assembled_assigned_uniq_2.fasta`
 Sequences number:547.302
