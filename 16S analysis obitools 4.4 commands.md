@@ -4,20 +4,21 @@
 
 `module load obitools/4.4.0`
 
+***FASTQC analysis***
 `module load fastqc`
 
 `gunzip -k 16S_sequences_foward.fastq.gz gunzip -k 16S_sequences_reverse.fastq.gz`
 
 `fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz`
 
-`obipairing --min-identity=0.9 --min-overlap=10 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus.fastq`
+**Obitools analysis**
 
-`obicount results/consensus.fastq`
+`obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq`
 
-sequences number: 57.976.189 
+        --min-overlap: minimum overlap between both the reads to consider the alignment (default: 20)
+        --min-identity: minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000)
 
------`obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq`
------`obicount results/consensus_2.fastq`
+`obicount results/consensus_2.fastq`
 sequence number : 57.976.189
 
 `obigrep -p 'annotations.mode != "join" results/consensus.fastq > results/assembled.fastq`
