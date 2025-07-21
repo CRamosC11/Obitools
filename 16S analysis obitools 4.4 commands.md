@@ -4,7 +4,7 @@
 
 `module load obitools/4.4.0`
 
-**FASTQC analysis**
+## FASTQC analysis**
 
 `module load fastqc`
 
@@ -12,9 +12,9 @@
 
 `fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz`
 
-**Obitools analysis**
+## Obitools analysis
 
-***Obipairing***
+### Obipairing
 
 `obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq`
 
