@@ -2,13 +2,15 @@
 
 `cd /home/scc/cramos/16S`
 
+`module load obitools/4.4.0`
+
 `module load fastqc`
 
 `gunzip -k 16S_sequences_foward.fastq.gz gunzip -k 16S_sequences_reverse.fastq.gz`
 
 `fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz`
 
-`obipairing --min-identity=0.8 --min-overlap=10 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus.fastq`
+`obipairing --min-identity=0.9 --min-overlap=10 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus.fastq`
 
 `obicount results/consensus.fastq`
 
@@ -18,11 +20,11 @@ sequences number: 57.976.189
 -----`obicount results/consensus_2.fastq`
 sequence number : 57.976.189
 
-`obigrep -p 'annotations.mode != "join"' results/consensus.fastq > results/assembled.fastq`
+`obigrep -p 'annotations.mode != "join" results/consensus.fastq > results/assembled.fastq`
 
 Sequences number: 54.684.072
 
------`obigrep -p 'annotations.mode != "join"' results/consensus_2.fastq > results/assembled_2.fastq`
+-----`obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled_2.fastq`
 Sequence number: 54.161.789
 
 
