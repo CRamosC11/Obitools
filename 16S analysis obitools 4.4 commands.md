@@ -53,7 +53,7 @@ The objetive of this part of the code is to delete all the bases but A, C, G, T.
 
         obigrep -p 'sequence =~ "^[ACTGactg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta
 
-Sequences number: **303.501**
+Sequences number: **322.023**
 
 ### Obiannotate
 
@@ -66,18 +66,24 @@ Sequences number: **303.501**
 Obiclean can be run in filter mode, allowing a sequence to be removed from the resulting sequence set if it is considered artifactual in all samples where it appears. Artifactual                sequences are those classified as internal or chimeric. This filtering is done by setting the -H option.
 
 
-Sequences number: **362.060**
+Sequences number: **147.513**
 
 ### Obigrep 
 
         obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta
 
-AQUIIIIII PERO REVISAR OBICLEAN CHIMERAS
+This command extracts from a .fasta file only the sequences that appear a single time in the dataset. These single-occurrence sequences are often considered:
+- noise (artifacts from PCR or sequencing)
+- rare species.
 
-        obigrep -c 2  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta
 
-sequences number: 46.638
+        obigrep -c 10  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta
 
+-c <COUNT>: selects the sequence records for which the number of occurrences (i.e the count attribute) is equal to or greater than the defined minimum count.
+
+sequences number: **10.911**
+
+AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
         obigrep -l 40 results/no_singleton_0.1.fasta > results/length_10/length_40_0.1.fasta
 variants= 42.261
