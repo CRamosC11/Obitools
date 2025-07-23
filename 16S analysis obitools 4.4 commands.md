@@ -83,7 +83,9 @@ This command extracts from a .fasta file only the sequences that appear a single
 
 sequences number: **12.840**
 
-According to Walker et al, 2023, sequences that were outside the expected barcode length (< 40 or > 140 bp) were removed. we apply obigrep for this purpose.
+### 2.8 Grep by lenght
+
+According to Walker et al, 2023, sequences that were outside the expected barcode length (< 40 or > 140 bp) were removed so we apply obigrep for this purpose.
 
        obigrep -l 40 -L 140 results/no_singleton_0.1.fasta > results/length_40/length_40.fasta  
         
