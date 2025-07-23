@@ -146,7 +146,6 @@ Zoom the figure in.
 
 Calculate the mean and median of the distribution of the total of sequences obtain (6.364)
 
-Mean of times
 Mean = 5464.714
 
 Median = 44
