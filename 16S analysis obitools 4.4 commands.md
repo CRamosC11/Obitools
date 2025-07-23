@@ -138,7 +138,8 @@ We don´t select  humans, environment and plants sequences to make the database 
 
 # 6. Rstudio analysis
 
-![Rplot](https://github.com/user-attachments/assets/900947ec-8343-4e07-805c-92620f202c98)
+
+<img width="680" height="325" alt="Distribution of the counts of the sequences" src="https://github.com/user-attachments/assets/3bb4a677-be1b-4857-ac95-ad86abad5d68" />
 
 Mayority of the sequences are repeated 2,3,4 times...More than 13 times is weird so we show a histogram "zoom it"
 
