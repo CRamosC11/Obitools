@@ -134,8 +134,7 @@ We don´t select  humans, environment and plants sequences to make the database 
 
 # 5. Distribution of the counts per sequences
 
-obicsv -k count results/length_40/taxo_red_40.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}'> results/length_40/distribution_count_per_sequences.csv
-
+        obicsv -k count results/length_40/taxo_red_40.fasta  |uniq -c  |awk '{print $2,$1}'> results/length_40/distribution_count_per_sequences.csv
 
 # 6. Rstudio analysis
 
