@@ -4,7 +4,7 @@
 
         module load obitools/4.4.0        
 
-## FASTQC analysis**
+## 1. FASTQC analysis**
 
         module load fastqc
         
@@ -12,9 +12,9 @@
         
         fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz
 
-## Obitools analysis
+## 2. Obitools analysis
 
-### Obipairing
+### 2.1 Obipairing
 
         obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq
 
@@ -25,27 +25,31 @@ min-identity: minimum identity between overlapped regions of the reads to consid
 
 Sequences number: **57.976.189**
 
-### Obigrep
+### 2.2 Obigrep
 
         obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled.fastq
 
+-p 'annotations.mode != "join" means if the value of the mode annotation of a sequence is different from join, then the corresponding sequence record should be kept in the output.
+
 Sequences number: **54.161.789**
 
-### Obimultiplex
+### 2.3 Obimultiplex
 
         obimultiplex -s 16S_new.txt -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq
       
-allowed-mismatches: Used to specify the number of errors allowed for matching primers. (default: -1)
+Allowed-mismatches: Used to specify the number of errors allowed for matching primers. (default: -1)
 
 Sequences number: **46.377.578**
 
-### Obiuniq
+### 2.4 Obiuniq to merge identical sequencies 
 
         obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta
 
+merge | -m: Adds a merged attribute containing the list of sequence record ids merged within this group.
+
 Sequences number: **652.984**
 
-### Obigrep
+### 2.5 Obigrep to deleted ambiguous bases
 
 Before comparing with the reference database, it is commomn to find sequences with ambiguous bases represented with IUPAC codes as N, M, K, R, Y, S, W, B, D, H or V.
 The objetive of this part of the code is to delete all the bases but A, C, G, T. 
@@ -55,20 +59,19 @@ The objetive of this part of the code is to delete all the bases but A, C, G, T.
 
 Sequences number: **322.023**
 
-### Obiannotate
+### 2.6 Obiannotate
 
         obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/clean_annotated.fasta
 
-### Obiclean 
+### 2.7 Obiclean for chimeras
 
         obiclean -s sample -r 0.1 --detect-chimera -H results/clean_annotated.fasta > results/cleaned_chimeras_0.1.fasta
 
 Obiclean can be run in filter mode, allowing a sequence to be removed from the resulting sequence set if it is considered artifactual in all samples where it appears. Artifactual                sequences are those classified as internal or chimeric. This filtering is done by setting the -H option.
 
-
 Sequences number: **147.513**
 
-### Obigrep 
+### 2.8 Obigrep to delete singletons 
 
         obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta
 
@@ -76,45 +79,38 @@ This command extracts from a .fasta file only the sequences that appear a single
 - noise (artifacts from PCR or sequencing)
 - rare species.
 
-
         obigrep -c 10  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta
 
 -c <COUNT>: selects the sequence records for which the number of occurrences (i.e the count attribute) is equal to or greater than the defined minimum count.
 
 sequences number: **10.911**
 
-AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+According to Walker et al, 2023, sequences that were outside the expected barcode length (< 40 or > 140 bp) were removed. we apply obigrep for this purpose.
 
-        obigrep -l 40 results/no_singleton_0.1.fasta > results/length_10/length_40_0.1.fasta
-variants= 42.261
-reads=36.535.108
-If -l=40 and -L=140:
-variants= 30.624
+       obigrep -l 40 -L 140 results/no_singleton_0.1.fasta > results/length_40/length_40.fasta  
+        
+variants= **6.364**
 
---------`obigrep -l 40 results/no_singleton_0.1_2.fasta > results/length_40/length_40_0.1_2.fasta`
-variants:26.677
-reads:36.903.488
+reads= 34.777.438
 
+## 3. Sequences taxonomic assignment
 
-According to Walker et al, 2023, Sequences were then assigned to the samples they came from (ngsfilter; up to two errors allowed), while sequences that were unaligned, contained ambiguous bases, or were outside the expected barcode length (< 40 or > 140 bp) were removed.
+Using the reference database (database.fasta) and the full NCBI taxonomy (ncbitaxo.tgz) we assign taxa to the sequences
 
+        obitag -t ncbitaxo.tgz -R database/database.fasta results/length_40/length_40.fasta > results/length_40/taxo_40.fasta
 
+        obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_40/taxo_40.fasta > results/length_40/taxo_red_40.fasta
 
+ MOTUs (Molecular operational taxonomic units) abundances for each PCR was obtained using the merge_sample attribute and the obiclean_weight attribute. 
+The merge_sample attribute was set by obiuniq andinforms about the observed number of reads for each sequence variant in the different samples. By contyarst obiclean_weight is the number of reads assigned to each sequence variant during obiclean. Obiclean_weight is the best option to represent the sequence occurrence than the merge_sample attribute.
 
+        obimatrix --map obiclean_weight results/length_40/taxo_red_40.fasta > results/length_40/16S_occurrency.csv
 
-##Sequences taxonomic assignment
+To create a csv document with information about the id, count, obitag_bestid, obitag_bestmatch, taxid, sequence among others attributes, we use obicsv. The -i and -s options include the sequence identifier and the sequence itself in the output CSV file.
+        
+         obicsv --auto -i -s results/length_40/taxo_red_40.fasta > results/length_40/16S_MOTUS.csv
 
-`obitag -t ncbitaxo.tgz -R database/database.fasta results/length_40/length_40_0.1.fasta > results/length_40/taxo_40.fasta`
----------- `obitag -t ncbitaxo.tgz -R database/database.fasta results/length_40/length_40_0.1_2.fasta > results/length_40/taxo_40_2.fasta`
-AQIUUIIIII 26/06/2025
-
-`obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_40/taxo_40.fasta > results/length_40/taxo_red_40.fasta`
-
-`obicsv --auto -i -s results/length_40/taxo_red_40.fasta > results/length_40/16S_MOTUS.csv`
-
-`obimatrix --map obiclean_weight results/length_40/16S_MOTUS.csv > results/length_40/16S_occurrency.csv`
-
-## Building database. 
+## 4. Building database. 
 `cd data/scc/cramos/16S/database`
 
 `wget -nH --cut-dirs=6 -A 'STD_*.dat.gz' -R 'STD_HUM*.dat.gz','STD_ENV*.dat.gz','STD_PLN*.dat.gz'  -m -np ftp://ftp.ebi.ac.uk/pub/databases/ena/sequence/snapshot_latest/std/`
