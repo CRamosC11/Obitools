@@ -141,14 +141,15 @@ We don´t select  humans, environment and plants sequences to make the database 
 
 <img width="680" height="325" alt="Distribution of the counts of the sequences" src="https://github.com/user-attachments/assets/3bb4a677-be1b-4857-ac95-ad86abad5d68" />
 
-Mayority of the sequences are repeated 2,3,4 times...More than 13 times is weird so we show a histogram "zoom it"
+Zoom the figure in.
+<img width="680" height="325" alt="Distribution of the count of the sequences ZOOM" src="https://github.com/user-attachments/assets/8950e64c-be34-40dc-83d7-1d2f1d35b1aa" />
 
-![Rplot01](https://github.com/user-attachments/assets/dfb2673a-fa89-466c-b0ed-a5f3c0ae4f8d)
+Calculate the mean and median of the distribution of the total of sequences obtain (6.364)
 
-Calculating the mean and meadian of the distribution 
+Mean of times
+Mean = 5464.714
 
-
-
+Median = 44
 
 
 
