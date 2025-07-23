@@ -76,7 +76,7 @@ Sequences number: **331.973**
 
 Obiclean can be run in filter mode, allowing a sequence to be removed from the resulting sequence set if it is considered artifactual in all samples where it appears. Artifactual                sequences are those classified as internal or chimeric. This filtering is done by setting the -H option.
 
-Sequences number: **147.513**
+Sequences number: **148.786**
 
 ### 2.8 Obigrep to delete singletons 
 
@@ -86,11 +86,11 @@ This command extracts from a .fasta file only the sequences that appear a single
 - noise (artifacts from PCR or sequencing)
 - rare species.
 
-        obigrep -c 10  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta
+        obigrep -c 10  results/cleaned_chimeras_0.1.fasta > results/no_singleton.fasta
 
 -c <COUNT>: selects the sequence records for which the number of occurrences (i.e the count attribute) is equal to or greater than the defined minimum count.
 
-sequences number: **12.840**
+Sequences number: **11.250**
 
 ### 2.9 Grep by lenght
 
@@ -98,9 +98,10 @@ According to Walker et al, 2023, sequences that were outside the expected barcod
 
        obigrep -l 40 -L 140 results/no_singleton_0.1.fasta > results/length_40/length_40.fasta  
         
-variants= **8.096**
+variants= **6.638**
 
-reads= 34.777.438
+reads= 35.330.145
+
 
 ## 3. Sequences taxonomic assignment
 
