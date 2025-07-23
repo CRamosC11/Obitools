@@ -62,6 +62,8 @@ Sequences number: **661.806**
 
 ### 2.5 Obigrep to delete ambiguous sequences
 
+There are some sequences whose bases are in some cases ambiguous. We filter those sequencies that could lead to mistakes in the identification.
+
         obigrep -p 'sequence =~ "^[actg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta
 
 Sequences number: **331.973**
