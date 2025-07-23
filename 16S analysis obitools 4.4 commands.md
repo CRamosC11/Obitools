@@ -56,21 +56,12 @@ merge | -m: Adds a merged attribute containing the list of sequence record ids m
 
 Sequences number: **652.984**
 
-### 2.5 Obigrep to deleted ambiguous bases
 
-Before comparing with the reference database, it is commomn to find sequences with ambiguous bases represented with IUPAC codes as N, M, K, R, Y, S, W, B, D, H or V.
-The objetive of this part of the code is to delete all the bases but A, C, G, T. 
-
-
-        obigrep -p 'sequence =~ "^[ACTGactg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta
-
-Sequences number: **322.023**
-
-### 2.6 Obiannotate
+### 2.5 Obiannotate
 
         obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/clean_annotated.fasta
 
-### 2.7 Obiclean for chimeras
+### 2.6 Obiclean for chimeras
 
         obiclean -s sample -r 0.1 --detect-chimera -H results/clean_annotated.fasta > results/cleaned_chimeras_0.1.fasta
 
@@ -78,7 +69,7 @@ Obiclean can be run in filter mode, allowing a sequence to be removed from the r
 
 Sequences number: **147.513**
 
-### 2.8 Obigrep to delete singletons 
+### 2.7 Obigrep to delete singletons 
 
         obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta
 
@@ -90,13 +81,13 @@ This command extracts from a .fasta file only the sequences that appear a single
 
 -c <COUNT>: selects the sequence records for which the number of occurrences (i.e the count attribute) is equal to or greater than the defined minimum count.
 
-sequences number: **10.911**
+sequences number: **12.840**
 
 According to Walker et al, 2023, sequences that were outside the expected barcode length (< 40 or > 140 bp) were removed. we apply obigrep for this purpose.
 
        obigrep -l 40 -L 140 results/no_singleton_0.1.fasta > results/length_40/length_40.fasta  
         
-variants= **6.364**
+variants= **8.096**
 
 reads= 34.777.438
 
