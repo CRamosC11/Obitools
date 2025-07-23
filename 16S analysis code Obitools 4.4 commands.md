@@ -50,7 +50,7 @@ Sequences number: **54.161.789**
       
 Allowed-mismatches: Used to specify the number of errors allowed for matching primers (default: -1)
 
-Sequences number: **46.377.578**
+Sequences number: **47.217.333**
 
 ### 2.4 Obiuniq to merge identical sequencies. Dereplication
 
@@ -58,17 +58,19 @@ Sequences number: **46.377.578**
 
 merge | -m: Adds a merged attribute containing the list of sequence record ids merged within this group.
 
-Sequences number: **652.984**
+Sequences number: **661.806**
 
 ### 2.5 Obigrep to delete ambiguous sequences
 
         obigrep -p 'sequence =~ "^[actg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta
-        
-### 2.5 Obiannotate
+
+Sequences number: **331.973**
+
+### 2.6 Obiannotate
 
         obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/clean_annotated.fasta
 
-### 2.6 Obiclean for chimeras
+### 2.7 Obiclean for chimeras
 
         obiclean -s sample -r 0.1 --detect-chimera -H results/clean_annotated.fasta > results/cleaned_chimeras_0.1.fasta
 
@@ -76,7 +78,7 @@ Obiclean can be run in filter mode, allowing a sequence to be removed from the r
 
 Sequences number: **147.513**
 
-### 2.7 Obigrep to delete singletons 
+### 2.8 Obigrep to delete singletons 
 
         obigrep -p 'sequence.Count() == 1' results/cleaned_chimeras_0.1.fasta
 
@@ -90,7 +92,7 @@ This command extracts from a .fasta file only the sequences that appear a single
 
 sequences number: **12.840**
 
-### 2.8 Grep by lenght
+### 2.9 Grep by lenght
 
 According to Walker et al, 2023, sequences that were outside the expected barcode length (< 40 or > 140 bp) were removed so we apply obigrep for this purpose.
 
