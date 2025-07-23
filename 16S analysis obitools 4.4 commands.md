@@ -15,7 +15,9 @@ FastQC (Andrews S., 2010) purpose is to offer an easy-to-use tool for performing
         
         gunzip -k 16S_sequences_foward.fastq.gz gunzip -k 16S_sequences_reverse.fastq.gz
         
-        fastqc 16S_sequences_foward.fastq.gz 16S_sequences_reverse.fastq.gz
+        fastqc 16S_sequences_foward.fastq 16S_sequences_reverse.fastq
+
+Results of this analysis are stored in folder FastQC files.
 
 ## 2. Obitools 4.4.0  analysis
 
