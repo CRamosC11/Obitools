@@ -125,7 +125,7 @@ We don´t select  humans, environment and plants sequences to make the database 
         obirefidx -t database/taxdump.tar.gz db_uniq.fasta > db_indexed.fasta
 
 
-# 5. Distribution of the counts per sequences
+# 5. Distribution of the counts per sequence
 
         obicsv -k count results/length_40/taxo_red_40.fasta  |uniq -c  |awk '{print $2,$1}'> results/length_40/distribution_count_per_sequences.csv
 
