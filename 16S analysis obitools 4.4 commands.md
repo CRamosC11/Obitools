@@ -25,14 +25,19 @@ Results of this analysis are stored in folder FastQC files.
 
         obipairing --min-identity=0.8 --min-overlap=10 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus.fastq
 
-min-overlap: minimum overlap between both the reads to consider the alignment (default: 20)
-min-identity: minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000)
+Obipairing allows to discard sequences with low alignment quality. Parameters set: min-overlap (minimum overlap between both the reads to consider the alignment (default: 20)) and min-identity (minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000))
 
         obicount results/consensus.fastq
 
 Sequences number: **57.976.189**
 
+To check the first 6 sequences of the dataset:
+
+        head -n 6 results/consensus.fastq
+
 ### 2.2 Obigrep
+
+Unpaired reads have the attribute mode = "join" and are not reliable for downstream analysis. You can remove them using -p obigrep with this condition:
 
         obigrep -p 'annotations.mode != "join" results/consensus.fastq > results/assembled.fastq
 
@@ -42,13 +47,13 @@ Sequences number: **54.161.789**
 
 ### 2.3 Obimultiplex
 
-        obimultiplex -s 16S_new.txt -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq
+        obimultiplex -s 16S_ngsfile.txt -u results/unidentified.fastq results/assembled.fastq > results/assembled_assigned.fastq
       
-Allowed-mismatches: Used to specify the number of errors allowed for matching primers. (default: -1)
+Allowed-mismatches: Used to specify the number of errors allowed for matching primers (default: -1)
 
 Sequences number: **46.377.578**
 
-### 2.4 Obiuniq to merge identical sequencies 
+### 2.4 Obiuniq to merge identical sequencies. Dereplication
 
         obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta
 
@@ -56,7 +61,10 @@ merge | -m: Adds a merged attribute containing the list of sequence record ids m
 
 Sequences number: **652.984**
 
+### 2.5 Obigrep to delete ambiguous sequences
 
+        obigrep -p 'sequence =~ "^[actg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta
+        
 ### 2.5 Obiannotate
 
         obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/clean_annotated.fasta
