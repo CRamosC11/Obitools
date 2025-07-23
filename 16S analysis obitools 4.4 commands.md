@@ -23,18 +23,18 @@ Results of this analysis are stored in folder FastQC files.
 
 ### 2.1 Obipairing
 
-        obipairing --min-identity=0.9 --min-overlap=20 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus_2.fastq
+        obipairing --min-identity=0.8 --min-overlap=10 -F 16S_sequences_forward.fastq -R 16S_sequences_reverse.fastq  > results/consensus.fastq
 
 min-overlap: minimum overlap between both the reads to consider the alignment (default: 20)
 min-identity: minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000)
 
-        obicount results/consensus_2.fastq
+        obicount results/consensus.fastq
 
 Sequences number: **57.976.189**
 
 ### 2.2 Obigrep
 
-        obigrep -p 'annotations.mode != "join" results/consensus_2.fastq > results/assembled.fastq
+        obigrep -p 'annotations.mode != "join" results/consensus.fastq > results/assembled.fastq
 
 -p 'annotations.mode != "join" means if the value of the mode annotation of a sequence is different from join, then the corresponding sequence record should be kept in the output.
 
