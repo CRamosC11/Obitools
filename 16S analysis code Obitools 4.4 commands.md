@@ -100,7 +100,7 @@ According to Walker et al, 2023, sequences that were outside the expected barcod
 
        obigrep -l 40 -L 140 results/no_singleton_0.1.fasta > results/length_40/length_40.fasta  
         
-variants= **6.638**
+variants= **8.096**
 
 reads= 35.330.145
 
@@ -109,7 +109,7 @@ reads= 35.330.145
 
 Using the reference database (database.fasta) and the full NCBI taxonomy (ncbitaxo.tgz) we assign taxa to the sequences
 
-        obitag -t ncbitaxo.tgz -R database/database.fasta results/length_40/length_40.fasta > results/length_40/taxo_40.fasta
+        obitag -t ncbitaxo.tgz -R db_indexed.fasta results/length_40/length_40.fasta > results/length_40/taxo_40.fasta
 
         obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_40/taxo_40.fasta > results/length_40/taxo_red_40.fasta
 
