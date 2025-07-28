@@ -2,9 +2,9 @@
 This document outlines the pipeline employed for the bioinformatic analysis of the trnL loop region of sedaDNA sequences obtained from Basa de la Mora (Pyrenees, Spain) as part of the CORREDORAS project. We provide the code necessary to replicate the analysis, including the use of OBITools version 4.4.0 for cleaning and filtering raw sequences, as well as the methodology used to construct a reference database for sequence comparison. We have mainly followed Obitools 4 tutorial (https://obitools4.metabarcoding.org/docs/cookbook/illumina/)
 
 ### Basic commands
-  module avail 2>&1 | grep obitools
+     module avail 2>&1 | grep obitools
 
-    module unload obitools/3.0.1-beta24
+     module unload obitools/3.0.1-beta24
 
      module load obitools/4.4.0
 
@@ -13,14 +13,15 @@ Set a directory
      cd /home/scc/cramos/trnL
  
 ### Check the quality of the sequences with FastQC
-`module load fastqc`
+     module load fastqc
 
 Unzip folders with forward and reverse sequences.
 
-`gunzip -k 250207_A00902_A_L002_BFTV-2_R1.fastq.gz gunzip -k 250207_A00902_A_L002_BFTV-2_R2.fastq.gz`
+     gunzip -k 250207_A00902_A_L002_BFTV-2_R1.fastq.gz gunzip -k 250207_A00902_A_L002_BFTV-2_R2.fastq.gz
 
-`fastqc 250207_A00902_A_L002_BFTV-2_R1.fastq.gz`
-`250207_A00902_A_L002_BFTV-2_R2.fastq.gz`
+     fastqc 250207_A00902_A_L002_BFTV-2_R1.fastq.gz
+     
+     250207_A00902_A_L002_BFTV-2_R2.fastq.gz
 
 Fastqc generates a zip file within the directory with images and a report of the analysis. 
 Link of both reports in this repository: BSM24_FastQC_TrnL_R2_fastqc and BSM24_FastQC_TrnL_R1_fastqc
@@ -50,7 +51,7 @@ Overrepresented sequences: FastQC indicates that the possible source of the 2 se
 ## Filtering and cleaning our dataset
 ### Importing forward and reverse sequences with `obiparing`
 
-`obipairing --min-identity=0.8 --min-overlap=10 -F forward.fastq.gz -R reverse.fastqgz  > results/consensus.fastq`
+      obipairing --min-identity=0.8 --min-overlap=10 -F forward.fastq.gz -R reverse.fastqgz  > results/consensus.fastq
 
 -min-overlap: minimum overlap between both the reads to consider the alignment (default: 20).
 --min-identity: minimum identity between overlapped regions of the reads to consider the alignment (default: 0.900000).
@@ -58,65 +59,77 @@ These options allow to discard sequences with low alignment quality. A low align
 
 We can observed information about the first sequence extracted 
 
-`obihead -n 1 results/consensus.fastq`
-### Exclude unpaired reads
-`obigrep -p 'annotations.mode != "join"' results/consensus.fastq > results/assembled.fastq`
+      obicount results/consensus.fastq 
 
-21.342.441 sequences obtained
+Sequences number = **22.421.828**
+
+    
+      obihead -n 1 results/consensus.fastq
+      
+### Exclude unpaired reads
+    
+    obigrep -p 'annotations.mode != "join"' results/consensus.fastq > results/assembled.fastq  
+
+Seqeunces number = **21.342.441** 
+
 ### Assign each sequence record to the corresponding sample and marker combination
 Each sequence record is assigned to its corresponding sample, primer and tag. We need to compare with a csv file created with and specific structure. This strucutre only works for obitools 4.4.0. 
 
-`obimultiplex -s ngsfile.csv -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq`
+      obimultiplex -s ngsfile.csv -u results/unidentified_new.fastq results/assembled.fastq > results/assembled_assigned.fastq
 
-20.136.204 sequences
+Sequences number = **20.136.204**
+
 Within the file ngsfile we can set up the number of error allowed between the sequence primer and the primer information contained in ngsfile. Default error is 1. The match between the primers and their corresponding sites in the obtained sequences can exhibit at most two mismatches.
+
 ### Reads dereplication
-`obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta`
 
-256.282 sequences
-Command -m sample option stores the frequency of the sequence in each sample.
+      obiuniq -m sample results/assembled_assigned.fastq > results/assembled_assigned_uniq.fasta
 
-To keep only these two attributes "count" and "merged_sample" in the sequence definition.
+Sequences number = **256.282**
 
-`obiannotate -k count -k merged_sample results/assembled_assigned_uniq.fasta > results/assembled_assigned_simple.fasta`
+Command -m sample option stores the frequency of the sequence in each sample. To keep only these two attributes "count" and "merged_sample" in the sequence definition.
+
+### Obigrep to delete ambiguous sequences
+
+There are some sequences whose bases are in some cases ambiguous. We filter those sequencies that could lead to mistakes in the identification.
+
+      obigrep -p 'sequence =~ "^[actg]+$"' results/assembled_assigned_uniq.fasta > results/clean_sequences.fasta
+
+Sequences number = **148.315**
+
+      obiannotate -k count -k merged_sample results/clean_sequences.fasta > results/assembled_assigned_simple.fasta
+      
 ### Dataset denoising 
+
 Having all sequences assigned to their respective samples does not mean that all these sequences are biologically meaningful. Some of these sequences can correspond to PCR/sequencing errors, or chimeras.
 
-`obiclean -s sample -r 0.05 --detect-chimera -H results/assembled_assigned_simple.fasta > results/cleaned_chimeras_0.05.fasta`
-
-172.131 sequences obtained
-We are doing different test. In this case we want to know how much sequences we can filter sign different -r parameter
 Parameter -r is the threshold ratio between counts (rare/abundant counts) of two sequence records so that the less abundant one is a variant of the more abundant (default: 1.00).
 
-`obiclean -s sample -r 0.1 --detect-chimera -H results/assembled_assigned_simple.fasta > results/cleaned_chimeras_0.1.fasta`
+      obiclean -s sample -r 0.1 --detect-chimera -H results/assembled_assigned_simple.fasta > results/cleaned_chimeras_0.1.fasta
 
-161.161 sequences.
+Sequences number = **87.544**
 
-The obigrep command below keeps only sequences that occur at least twice in the data set.
+### Filter by abundance
 
-`obigrep -c 2  results/cleaned_chimeras_0.05.fasta > results/no_singleton.fasta`
+If we are interested on filtering the file by the number of times sequences appear in the database, we can use `obigrep`
 
-45.137 sequences.
+> According to Alsos et al., 2015, they filtered those sequences that occur at least 10 reads per PCR. The obigrep command below keeps only sequences that occur at least ten times in the data set.
 
-`obigrep -c 2  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta`
+      obigrep -c 10  results/cleaned_chimeras_0.1.fasta > results/no_singleton_0.1.fasta
 
-40.272 sequences.
+Sequences number = **45.272**
 
 We want to filter the sequences according to their length. The primer used to sequences allows us to obtain information about a  specific region of the trnL gen. We use g and h primer whcih focus on the trnL loop and the length of this region is inferior to 150 bp and this length also could vary among different organisms. We consider filtering sequences according differnet ranges: 
 * length between 10 and 150 base pairs: 44.608
-* length between 40 and 150 base pairs: 41.162
-* length between 60 and 150 base pairs: 7179
-* length between 80 and 150 base pairs: 3.757
-These analyses are performanced with no_singleton.fasta file. We developed aother analysis with no_singleton_0.1.fasta. With this file, we filtered those sequences whose length is superior to 10 pb and inferior to 150 obtaning 39.942 sequences.
 
-`obigrep -l 10 -L 150 results/no_singleton.fasta > results/length_10/length_10_0.5.fasta`
+      obigrep -l 10 -L 150 results/no_singleton_0.1.fasta > results/length_10/length_10_0.1.fasta
 
-`obigrep -l 10 -L 150 results/no_singleton_0.1.fasta > results/length_10/length_10_0.1.fasta`
+Sequences number =  **9.796** 
 
 # Distribution of counts per AVS
 It could be interesting to explore the AVS (amplicon variants sequences) in order to filter them (in case we consider it neccessary) by the number of times each sequence appears in the dataset. 
 
-`obicsv -k count results/length_10/length_10_0.1.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}' > results/length_10/counts per sequences distribution.csv`
+      obicsv -k count results/length_10/length_10_0.1.fasta | tail -n +2 | sort -n | uniq -c | awk '{print $2,$1}' > results/length_10/counts_per_sequences_distribution.csv
 
 With the csv, we plot the distribution of the count attribute in the data set in Rstudio (code attach in this repository). 
 
@@ -137,44 +150,39 @@ Calculating the median of the occurence of the sequences, the value is 3. In thi
 ## Sequences taxonomic assignment 
 Once the dataset is curated, the next step in a classical diet metabarcoding analysis is to assign the barcodes a taxon name (species, genus, etc.), in order to retrieve the list of taxa detected in each sample.
 
-`obitag -t ncbitaxo.tgz -R database/database.fasta results/length_10/lenght_10.fasta > results/length_10/taxo_seq_10.fasta`
-
-`obitag -t ncbitaxo.tgz -R database/database.fasta results/length_10/length_10_0.1.fasta > results/length_10/taxo_seq_10_0.1.fasta` (using -r 0.1 during obiclean)
-
+      obitag -t ncbitaxo.tgz -R database/database.fasta results/length_10/length_10_0.1.fasta > results/length_10/taxo_seq_10.fasta
 
 * before starting with obitag, we need to construct the database (in our case we have construct 2 db using EMBL and PhyloAlps data). In this script we are showing results with EMBL database. Construction of the database commands is shown in this repository. 
 
 Exporting the results in a tabular format
 
-`obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_10/taxo_seq_10.fasta > results/length_10/taxo_seq_red_10.fasta`
+      obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_10/taxo_seq_10.fasta > results/length_10/taxo_seq_red_10.fasta
 
-`obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_10/taxo_seq_10_0.1.fasta > results/length_10/taxo_seq_red_10_0.1.fasta`
 
 ## MOTUs occurrence table 
+
 MOTU: molecular operational taxonomic units
 
 The `obimatrix` command creates the CSV file using the obiclean_weight attribute to report the abundances of the MOTUs.
 
-`obicsv --auto -i -s results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/MOTUS_trnL.csv`
+      obicsv --auto -i -s results/length_10/taxo_seq_red_10.fasta > results/length_10/MOTUS_trnL.csv
 
 To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
 
-`obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.05.csv`
-
-`obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10_0.1.fasta > results/length_10/occurrency_0.1.csv`
+      obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10.fasta > results/length_10/occurrency_trnL.csv
 
 
-### Filter by abundance
-If we are interested on filtering the file by the number of times sequences appear in the database, we can use `obigrep`
-> According to Alsos et al., 2015, they filtered those sequences that occur at least 10 reads per PCR.
 
-`obigrep -c 10 results/length_10/taxo_seq_red_10.fasta > results/length_10/MOTUS_10_COUNT.fasta`
+      
+ ## PhyloAlps database
 
-`obigrep -c 10 results/length_10/taxo_seq_10_0.1.fasta > results/length_10/MOTUS_0.1_COUNT.fasta`
+      obitag -t ncbitaxo.tgz -R PhyloAlps/phyloalps_new.fasta results/length_10/length_10_0.1.fasta > results_phyloAlps/length_10/Phylo_taxo_seq_10.fasta
 
-Phylo Alps database
+      obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results_phyloAlps/length_10/Phylo_taxo_seq_10.fasta > results_phyloAlps/length_10/Phylo_taxo_seq_anno.fasta
 
-`obigrep -c 10 results_phyloAlps/length_10/taxo_red_phyAlps_10.fasta > results_phyloAlps/length_10/MOTUS_PhyloAlps_COUNT_10.fasta`
+      obicsv --auto -i -s results_phyloAlps/length_10/Phylo_taxo_seq_anno.fasta > results_phyloAlps/length_10/Phylo_MOTUS_trnL.csv
 
+To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
 
- 
+      obimatrix --map obiclean_weight results_phyloAlps/length_10/Phylo_taxo_seq_anno.fasta > results_phyloAlps/length_10/Phylo_occurrences_trnL.csv
+
