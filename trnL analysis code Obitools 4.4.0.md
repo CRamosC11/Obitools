@@ -163,11 +163,11 @@ Exporting the results in a tabular format
 
 MOTU: molecular operational taxonomic units
 
-The `obimatrix` command creates the CSV file using the obiclean_weight attribute to report the abundances of the MOTUs.
+To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
 
       obicsv --auto -i -s results/length_10/taxo_seq_red_10.fasta > results/length_10/MOTUS_trnL.csv
 
-To create the CSV metadata file describing the MOTUs attributes, you can use obicsv with the --auto option. 
+The `obimatrix` command creates the CSV file using the obiclean_weight attribute to report the abundances of the MOTUs.
 
       obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10.fasta > results/length_10/occurrency_trnL.csv
 
