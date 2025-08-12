@@ -46,6 +46,8 @@ Sequences number: **54.161.789**
 
 ### 2.3 Obimultiplex
 
+ngsfile was prepared using some restrictions as @param,matching,strict: The match between the sequence of the tags in the file is strict which means no error among reads and the tags. 
+
         obimultiplex -s 16S_ngsfile.txt -u results/unidentified.fastq results/assembled.fastq > results/assembled_assigned.fastq
       
 Allowed-mismatches: Used to specify the number of errors allowed for matching primers (default: -1)
