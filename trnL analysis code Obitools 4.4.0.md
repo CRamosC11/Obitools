@@ -159,7 +159,7 @@ Exporting the results in a tabular format
       obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_10/taxo_seq_10.fasta > results/length_10/taxo_seq_red_10.fasta
 
 
-## MOTUs occurrence table 
+## MOTUs and OCCURRENCE files
 
 MOTU: molecular operational taxonomic units
 
@@ -169,7 +169,7 @@ To create the CSV metadata file describing the MOTUs attributes, you can use obi
 
 The `obimatrix` command creates the CSV file using the obiclean_weight attribute to report the abundances of the MOTUs.
 
-      obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10.fasta > results/length_10/occurrency_trnL.csv
+      obimatrix --map obiclean_weight results/length_10/taxo_seq_red_10.fasta > results/length_10/occurrence_trnL_EMBL.csv
 
 
 
