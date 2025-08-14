@@ -176,7 +176,7 @@ The `obimatrix` command creates the CSV file using the obiclean_weight attribute
       
  ## PhyloAlps database
 
-      obitag -t ncbitaxo.tgz -R PhyloAlps/phyloalps_new.fasta results/length_10/length_10_0.1.fasta > results_phyloAlps/length_10/Phylo_taxo_seq_10.fasta
+      obitag -t ncbitaxo.tgz -R PhyloAlps/phyloalps_new.fasta results/length_10/length_10.fasta > results_phyloAlps/length_10/Phylo_taxo_seq_10.fasta
 
       obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results_phyloAlps/length_10/Phylo_taxo_seq_10.fasta > results_phyloAlps/length_10/Phylo_taxo_seq_anno.fasta
 
