@@ -150,7 +150,7 @@ Calculating the median of the occurence of the sequences, the value is 3. In thi
 ## Sequences taxonomic assignment 
 Once the dataset is curated, the next step in a classical diet metabarcoding analysis is to assign the barcodes a taxon name (species, genus, etc.), in order to retrieve the list of taxa detected in each sample.
 
-      obitag -t ncbitaxo.tgz -R database/database.fasta results/length_10/length_10.fasta > results/length_10/taxo_seq_10.fasta
+      obitag -t ncbitaxo.tgz -R database/database_EMBL.fasta results/length_10/length_10.fasta > results/length_10/taxo_seq_10.fasta
 
 * before starting with obitag, we need to construct the database (in our case we have construct 2 db using EMBL and PhyloAlps data). In this script we are showing results with EMBL database. Construction of the database commands is shown in this repository. 
 
