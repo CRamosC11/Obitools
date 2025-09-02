@@ -132,6 +132,10 @@ To create a csv document with information about the id, count, obitag_bestid, ob
 
 We don´t select  humans, environment and plants sequences to make the database smaller.
 
+First download taxdump file 
+
+        curl http://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
+
         obipcr -e 2 -l 30 -L 150 --forward CGAGAAGACCCTATGGAGCT --reverse CCGAGGTCRCCCCAACC --no-order database/ > pcr_16S.fasta
 
         obigrep -t database/taxdump.tar.gz -A taxid --require-rank species --require-rank genus --require-rank family pcr_16S.fasta > db_16S.fasta
