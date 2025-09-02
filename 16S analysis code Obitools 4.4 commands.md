@@ -113,16 +113,16 @@ Using the reference database (database.fasta) and the full NCBI taxonomy (ncbita
 
         obitag -t ncbitaxo.tgz -R db_indexed.fasta results/length_40/length_40.fasta > results/length_40/taxo_40.fasta
 
-        obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_40/taxo_40.fasta > results/length_40/taxo_40.fasta
+        obiannotate  --delete-tag=obiclean_head --delete-tag=obiclean_headcount --delete-tag=obiclean_internalcount --delete-tag=obiclean_samplecount --delete-tag=obiclean_singletoncount results/length_40/taxo_40.fasta > results/length_40/taxo_40_annot.fasta
 
 MOTUs (Molecular operational taxonomic units) abundances for each PCR was obtained using the merge_sample attribute and the obiclean_weight attribute. 
 The merge_sample attribute was set by obiuniq andinforms about the observed number of reads for each sequence variant in the different samples. By contyarst obiclean_weight is the number of reads assigned to each sequence variant during obiclean. Obiclean_weight is the best option to represent the sequence occurrence than the merge_sample attribute.
 
-        obimatrix --map obiclean_weight results/length_40/taxo_40.fasta > results/length_40/16S_occurrency.csv
+        obimatrix --map obiclean_weight results/length_40/taxo_40_annot.fasta > results/length_40/16S_occurrency.csv
 
 To create a csv document with information about the id, count, obitag_bestid, obitag_bestmatch, taxid, sequence among others attributes, we use obicsv. The -i and -s options include the sequence identifier and the sequence itself in the output CSV file.
         
-         obicsv --auto -i -s results/length_40/taxo_red_40.fasta > results/length_40/16S_MOTUS.csv
+         obicsv --auto -i -s results/length_40/taxo_40_annot.fasta > results/length_40/16S_MOTUS.csv
 
 ## 4. Building the reference database 
 
